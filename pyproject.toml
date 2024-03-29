@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "scoutos"
 version = "0.1.0"
-description = ""
+description = "ScoutOS Python SDK"
 authors = []
 license = "MIT"
 readme = "README.md"
