@@ -1,6 +1,6 @@
-# scoutos-python
+# Scout
 
-ScoutOS Python SDK
+Build LLM Powered Applications
 
 ## Requirements
 
