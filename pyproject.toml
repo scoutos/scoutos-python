@@ -1,0 +1,45 @@
+[tool.poetry]
+name = "scoutos"
+version = "0.1.0"
+description = ""
+authors = []
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.1.1"
+ruff = "^0.3.4"
+mypy = "^1.9.0"
+pytest-cov = "^5.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+line-length = 88
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+  "COM812",
+  "D100",
+  "D104",
+  "ISC001",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"test_*.py" = [
+  "ANN001",
+  "ANN201",
+  "D",
+  "S101",
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
