@@ -1,6 +1,6 @@
 # Scout
 
-Build LLM Powered Applications
+Build LLM Apps
 
 ## Requirements
 
