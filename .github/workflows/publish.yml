@@ -1,0 +1,35 @@
+name: publish
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  main:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Python
+        uses: actions/setup-python@v2
+        with:
+          python-version-file: '.python-version'
+
+      - name: Setup Poetry
+        uses: snok/install-poetry@v1
+
+      - name: Build
+        run: poetry build
+
+      - name: Publish
+        env:
+          PYPI_TOKEN: ${{ secrets.PYPI_TOKEN }}
+        run: |
+          poetry config pypi-token.pypi $PYPI_TOKEN
+          poetry publish
+
+
+
+
