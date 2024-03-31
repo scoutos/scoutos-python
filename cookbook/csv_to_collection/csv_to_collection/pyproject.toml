@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "csv-to-collection"
+version = "0.1.0"
+description = "Recipe for uploading csvs to Scout."
+authors = ["aplchiangh <alex.boquis@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+pydantic = "^2.6.4"
+requests = "^2.31.0"
+pandas = "^2.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
