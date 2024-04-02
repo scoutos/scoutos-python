@@ -12,11 +12,7 @@ class Identity(Block):
     """
 
     def __init__(self, *, key: str):
-        self._key = key
-
-    @property
-    def key(self) -> str:
-        return self._key
+        super().__init__(key=key)
 
     async def run(self, run_input: T) -> T:
         return run_input
