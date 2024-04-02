@@ -10,5 +10,5 @@ class Block(ABC):
         """Key uniquely identifies _this_ block."""
 
     @abstractmethod
-    def run(self, run_input: dict) -> dict:
+    async def run(self, run_input: dict) -> dict:
         """Run the block. This is the meat and potatos. Yum yum."""

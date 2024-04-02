@@ -18,5 +18,5 @@ class Identity(Block):
     def key(self) -> str:
         return self._key
 
-    def run(self, run_input: T) -> T:
+    async def run(self, run_input: T) -> T:
         return run_input

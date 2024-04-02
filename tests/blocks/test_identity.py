@@ -19,6 +19,7 @@ def test_loading():
     assert block.key == "this_block_key"
 
 
+@pytest.mark.asyncio()
 @pytest.mark.parametrize(
     "run_input",
     [
@@ -26,8 +27,8 @@ def test_loading():
         {"one": 1, "too": "also"},
     ],
 )
-def test_run(run_input):
+async def test_run(run_input):
     block = initialize_identity_block()
-    result = block.run(run_input)
+    result = await block.run(run_input)
 
     assert result == run_input
