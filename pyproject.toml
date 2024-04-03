@@ -9,6 +9,7 @@ repository = "https://github.com/otherwillhq/scoutos-python"
 
 [tool.poetry.dependencies]
 python = "^3.10"
+openai = "^1.16.1"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
@@ -16,6 +17,7 @@ ruff = "^0.3.4"
 mypy = "^1.9.0"
 pytest-cov = "^5.0.0"
 pytest-asyncio = "^0.23.6"
+pytest-mock = "^3.14.0"
 
 [build-system]
 requires = ["poetry-core"]
@@ -39,6 +41,7 @@ ignore = [
 "test_*.py" = [
   "ANN001",
   "ANN201",
+  "ANN401",
   "D",
   "S101",
 ]

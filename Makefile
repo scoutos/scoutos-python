@@ -56,4 +56,4 @@ fix-smells: ## Fix code smells with Ruff
 .PHONY: test
 test: ## Run unit tests
 	@echo "Running unit tests..."
-	@poetry run pytest --cov=scoutos --cov-report=term-missing --cov-fail-under=100
+	@poetry run pytest -s -v --cov=scoutos --cov-report=term-missing --cov-fail-under=100
