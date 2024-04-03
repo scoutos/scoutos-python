@@ -1,16 +1,20 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from typing import Generic, TypeVar
+
+RunInput = TypeVar("RunInput")
+RunOutput = TypeVar("RunOutput")
 
 
 @dataclass
-class BlockOutput:
+class BlockOutput(Generic[RunOutput]):
     """Structured output returned at the termination of each block run."""
 
     ok: bool
-    output: dict
+    output: RunOutput
 
 
-class Block(ABC):
+class Block(ABC, Generic[RunInput, RunOutput]):
     """This is the base block that all other Blocks will inherit from."""
 
     _initialized_with_super = False
@@ -25,10 +29,10 @@ class Block(ABC):
         return self._key
 
     @abstractmethod
-    async def run(self, run_input: dict) -> dict:
+    async def run(self, run_input: RunInput) -> RunOutput:
         """Run the block. This is the meat and potatos. Yum yum."""
 
-    async def wrapped_run(self, run_input: dict) -> BlockOutput:
+    async def wrapped_run(self, run_input: RunInput) -> BlockOutput[RunOutput]:
         """Outter wrapper for the subclasses run method.
 
         We use this to apply common patterns and to validate any global
