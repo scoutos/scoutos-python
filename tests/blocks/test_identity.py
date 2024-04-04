@@ -4,11 +4,7 @@ from scoutos.blocks import Block, Identity
 
 
 def initialize_identity_block():
-    default_config = {
-        "key": "this_block_key",
-    }
-
-    return Identity(**default_config)
+    return Identity(key="this_block_key")
 
 
 def test_loading():

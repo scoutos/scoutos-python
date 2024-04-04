@@ -15,7 +15,7 @@ async def test_it_raises_if_not_initialized():
     block = ImproperlyInitializedBlock(key="the_key")
 
     with pytest.raises(BlockInitializationError):
-        await block.wrapped_run({})
+        await block.outter_run({})
 
 
 @pytest.mark.asyncio()
@@ -30,7 +30,7 @@ async def test_it_runs():
     block = SomeBlockSubclass(key="some_block_subclass")
 
     run_input = {"foo": "baz"}
-    result = await block.wrapped_run(run_input)
+    result = await block.outter_run(run_input)
 
-    assert result.ok
+    assert result.ok is True
     assert result.output == run_input

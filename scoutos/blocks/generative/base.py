@@ -1,6 +1,7 @@
 from abc import abstractmethod
+from typing import Unpack
 
-from scoutos.blocks import Block
+from scoutos.blocks import Block, BlockCommonArgs
 
 from .types import GenerativeInput, GenerativeOutput
 
@@ -8,8 +9,8 @@ from .types import GenerativeInput, GenerativeOutput
 class Generative(Block[GenerativeInput, GenerativeOutput]):
     """A base for blocks that use generative AI to produce output."""
 
-    def __init__(self, *, key: str):
-        super().__init__(key=key)
+    def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
+        super().__init__(**kwargs)
 
     @abstractmethod
-    async def run(self, run_input: GenerativeInput) -> GenerativeOutput: ...
+    async def run(self, run_input: dict) -> GenerativeOutput: ...

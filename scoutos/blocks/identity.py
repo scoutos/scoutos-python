@@ -1,8 +1,8 @@
-from typing import TypeVar
+from __future__ import annotations
 
-from .base import Block
+from typing import Unpack
 
-T = TypeVar("T", bound=dict)
+from .base import Block, BlockCommonArgs
 
 
 class Identity(Block):
@@ -11,8 +11,8 @@ class Identity(Block):
     This block may be useful for testing and debugging.
     """
 
-    def __init__(self, *, key: str):
-        super().__init__(key=key)
+    def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
+        super().__init__(**kwargs)
 
-    async def run(self, run_input: T) -> T:
+    async def run(self, run_input: dict) -> dict:
         return run_input

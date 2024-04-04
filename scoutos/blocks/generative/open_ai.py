@@ -1,7 +1,7 @@
 from openai import OpenAI as OGOpenAI
 
 from .base import Generative
-from .types import GenerativeInput, GenerativeOutput
+from .types import GenerativeOutput
 
 
 class OpenAI(Generative):
@@ -12,7 +12,7 @@ class OpenAI(Generative):
         self._api_key = api_key
         self._model = model
 
-    async def run(self, run_input: GenerativeInput) -> GenerativeOutput:
+    async def run(self, run_input: dict) -> GenerativeOutput:
         client = OGOpenAI(api_key=self._api_key)
         messages = run_input["messages"]
         response = client.chat.completions.create(

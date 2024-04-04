@@ -10,7 +10,7 @@ import pytest
 from scoutos.blocks import Block
 from scoutos.blocks.generative import Generative, OpenAI
 
-if TYPE_CHECKING:
+if TYPE_CHECKING:  # pragma: no cover
     from scoutos.blocks.generative.types import GenerativeInput, GenerativeOutput
 
 
@@ -111,7 +111,7 @@ async def test_run(mocker):
     }
 
     block = initialize_block()
-    result = await block.wrapped_run(run_input)
+    result = await block.run(run_input)
 
     mock_client.chat.completions.create.assert_called_once_with(
         model="gpt-3.5-turbo",
@@ -126,5 +126,4 @@ async def test_run(mocker):
     # # 5) Verify results and then back out all changes
     # write_fixture(result.output, "open_ai_completion_response")  # noqa: ERA001
 
-    assert result.ok
-    assert result.output == expected_output
+    assert result == expected_output
