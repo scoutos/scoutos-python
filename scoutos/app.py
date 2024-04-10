@@ -97,16 +97,17 @@ class App:
                 initial_input=initial_input,
             )
 
-        current_block_input = (
-            initial_input
-            if current_block.key == "input"
-            else {
-                dep.key: dep.resolve(self.current_output)
-                for dep in current_block.depends
-            }
+        current_block_output = await current_block.outter_run(
+            self.current_output,
+            override_input=initial_input if current_block.key == "input" else None,
         )
-        current_block_output = await current_block.outter_run(current_block_input)
         self.persist_output(current_block_output)
+
+        while current_block.key != "input" and current_block.requires_rerun(
+            self.current_output
+        ):
+            current_block_output = await current_block.outter_run(self.current_output)
+            self.persist_output(current_block_output)
 
 
 class AppExecutionError(Exception):

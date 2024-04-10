@@ -2,7 +2,15 @@ from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Generic, Required, TypedDict, TypeVar, Unpack
+from typing import (
+    TYPE_CHECKING,
+    Callable,
+    Generic,
+    Required,
+    TypedDict,
+    TypeVar,
+    Unpack,
+)
 from uuid import uuid4
 
 from scoutos.utils import get_current_timestamp
@@ -21,6 +29,10 @@ class BlockCommonArgs(TypedDict, total=False):
     depends: list[Dependency]
     """A list of other blocks, identified by their keys, that _this_ block
     depends upon."""
+
+    run_until: Callable[[dict], bool]
+    """If provided, this repersents a condition that while false, will cause the
+    block to re-execute."""
 
 
 @dataclass
@@ -43,6 +55,7 @@ class Block(ABC, Generic[RunInput, RunOutput]):
     def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
         self._key = kwargs["key"]
         self._depends = kwargs.get("depends", [])
+        self._run_until = kwargs.get("run_until", lambda _data: True)
         self._initialized_with_super = True
 
     @property
@@ -58,9 +71,18 @@ class Block(ABC, Generic[RunInput, RunOutput]):
     async def run(self, run_input: dict) -> RunOutput:
         """Run the block. This is the meat and potatos. Yum yum."""
 
+    def resolve_deps(self, block_output: list[BlockOutput]) -> dict:
+        return {dep.key: dep.resolve(block_output[::-1]) for dep in self.depends}
+
+    def requires_rerun(self, current_output: list[BlockOutput]) -> bool:
+        data = self.resolve_deps(current_output)
+        return not self._run_until(data)
+
     async def outter_run(
         self,
-        block_input: dict,
+        current_state: list[BlockOutput],
+        *,
+        override_input: dict | None = None,
     ) -> BlockOutput[RunOutput]:
         """Outter wrapper for the subclasses run method.
 
@@ -72,9 +94,8 @@ class Block(ABC, Generic[RunInput, RunOutput]):
 
         block_run_start_ts = get_current_timestamp()
         block_run_id = str(uuid4())
-
+        block_input = override_input or self.resolve_deps(current_state)
         output = await self.run(block_input)
-
         block_run_end_ts = get_current_timestamp()
 
         return BlockOutput(
