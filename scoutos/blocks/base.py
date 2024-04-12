@@ -30,6 +30,11 @@ class BlockCommonArgs(TypedDict, total=False):
     """A list of other blocks, identified by their keys, that _this_ block
     depends upon."""
 
+    max_runs: int
+    """If the block is potentially repeated, this represents the maximum number
+    of times the block can be run, to prevent runaway processes (default = 10).
+    """
+
     run_until: Callable[[dict], bool]
     """If provided, this repersents a condition that while false, will cause the
     block to re-execute."""
@@ -50,29 +55,63 @@ class BlockOutput(Generic[RunOutput]):
 class Block(ABC, Generic[RunInput, RunOutput]):
     """This is the base block that all other Blocks will inherit from."""
 
+    DEFAULT_MAX_RUNS = 10
+
     _initialized_with_super = False
 
     def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
+        self._initialized_with_super = True
         self._key = kwargs["key"]
         self._depends = kwargs.get("depends", [])
         self._run_until = kwargs.get("run_until", lambda _data: True)
-        self._initialized_with_super = True
+        self._max_runs = kwargs.get("max_runs", self.DEFAULT_MAX_RUNS)
+        self._output: list[BlockOutput[RunOutput]] = []
 
     @property
     def depends(self) -> list[Dependency]:
         return self._depends
 
     @property
+    def has_exceeded_run_count(self) -> bool:
+        return self.run_count >= self.max_runs
+
+    @property
     def key(self) -> str:
         """Key that uniquely identifies _this_ block."""
         return self._key
+
+    @property
+    def last_run_completed_at(self) -> str | None:
+        """Returns a string representation of a timestamp of when the last run
+        for this block was completed at."""
+        if len(self.output) == 0:
+            return None
+
+        return self.output[-1].block_run_end_ts
+
+    @property
+    def max_runs(self) -> int:
+        return self._max_runs
+
+    @property
+    def output(self) -> list[BlockOutput[RunOutput]]:
+        return self._output
+
+    @property
+    def run_count(self) -> int:
+        return len(self._output)
+
+    def has_met_termination_condition(self, current_output: list[BlockOutput]) -> bool:
+        return (
+            not self.requires_rerun(current_output) or self.run_count >= self.max_runs
+        )
 
     @abstractmethod
     async def run(self, run_input: dict) -> RunOutput:
         """Run the block. This is the meat and potatos. Yum yum."""
 
     def resolve_deps(self, block_output: list[BlockOutput]) -> dict:
-        return {dep.key: dep.resolve(block_output[::-1]) for dep in self.depends}
+        return {dep.key: dep.resolve(block_output) for dep in self.depends}
 
     def requires_rerun(self, current_output: list[BlockOutput]) -> bool:
         data = self.resolve_deps(current_output)
@@ -98,7 +137,7 @@ class Block(ABC, Generic[RunInput, RunOutput]):
         output = await self.run(block_input)
         block_run_end_ts = get_current_timestamp()
 
-        return BlockOutput(
+        run_output = BlockOutput(
             ok=True,
             block_id=self.key,
             block_run_id=block_run_id,
@@ -106,6 +145,10 @@ class Block(ABC, Generic[RunInput, RunOutput]):
             block_run_end_ts=block_run_end_ts,
             output=output,
         )
+
+        self._output.append(run_output)
+
+        return run_output
 
 
 class BlockInitializationError(Exception):

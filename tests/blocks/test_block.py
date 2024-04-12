@@ -11,6 +11,11 @@ from scoutos.blocks.base import (
 from scoutos.dependencies import Depends
 
 
+class MinimalBlockStub(Block):
+    async def run(self, run_input: dict) -> dict:
+        return run_input
+
+
 def create_block_output(block_id: str, output: dict) -> BlockOutput:
     return BlockOutput(
         block_id=block_id,

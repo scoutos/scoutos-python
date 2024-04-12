@@ -4,6 +4,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, TypeVar
 from uuid import uuid4
 
+from scoutos.constants import THE_START_OF_TIME_AND_SPACE
 from scoutos.utils import get_current_timestamp
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -20,6 +21,7 @@ class RunResult:
     app_output: dict
     app_run_end_ts: str
     app_run_id: str
+    app_run_path: list[str]
     app_run_start_ts: str
     block_output: list[BlockOutput]
     ok: bool
@@ -35,22 +37,30 @@ class App:
         self._initial_input: dict = {}
 
     @property
+    def blocks(self) -> dict[str, Block]:
+        return self._blocks
+
+    @property
     def current_output(self) -> list[BlockOutput]:
-        return self._block_outputs
+        return sorted(
+            [output for block in self.blocks.values() for output in block.output],
+            key=lambda block_output: block_output.block_run_end_ts,
+        )
+
+    @property
+    def current_path(self) -> list[str]:
+        """The path of blocks executed returned as a list of strings"""
+        return [block_output.block_id for block_output in self.current_output]
 
     def get_block(self, block_id: str) -> Block:
-        return self._blocks[block_id]
-
-    def persist_output(self, output: BlockOutput) -> None:
-        self._block_outputs.append(output)
+        return self.blocks[block_id]
 
     def get_output(self, block_id: str) -> BlockOutput:
-        for block in self.current_output[::-1]:
-            if block.block_id == block_id:
-                return block
-
-        message = f"Output for `block_id`: {block_id} not found"
-        raise AppExecutionError(message)
+        try:
+            return self.blocks[block_id].output[-1]
+        except KeyError as orig_err:
+            message = f"Output for `block_id`: {block_id} not found"
+            raise AppExecutionError(message) from orig_err
 
     async def run(
         self,
@@ -73,6 +83,7 @@ class App:
             app_output=self.get_output("output").output,
             app_run_end_ts=app_run_end_ts,
             app_run_id=app_run_id,
+            app_run_path=self.current_path,
             app_run_start_ts=app_run_start_ts,
             block_output=self.current_output,
             ok=True,
@@ -88,8 +99,17 @@ class App:
         initial_input = initial_input or {}
         current_block = self.get_block(block_id)
 
+        if current_block.has_exceeded_run_count:
+            message = f"Exceeded Run Count for {current_block}"
+            raise AppExecutionError(message)
+
         for dep in current_block.depends:
-            if dep.is_resolved(self.current_output):
+            if dep.is_resolved(
+                self.current_output,
+                since=current_block.last_run_completed_at or THE_START_OF_TIME_AND_SPACE
+                if dep.requires_rerun
+                else THE_START_OF_TIME_AND_SPACE,
+            ):
                 continue
 
             await self._run_until(
@@ -97,17 +117,13 @@ class App:
                 initial_input=initial_input,
             )
 
-        current_block_output = await current_block.outter_run(
+        await current_block.outter_run(
             self.current_output,
             override_input=initial_input if current_block.key == "input" else None,
         )
-        self.persist_output(current_block_output)
 
-        while current_block.key != "input" and current_block.requires_rerun(
-            self.current_output
-        ):
-            current_block_output = await current_block.outter_run(self.current_output)
-            self.persist_output(current_block_output)
+        if not current_block.has_met_termination_condition(self.current_output):
+            await self._run_until(current_block.key)
 
 
 class AppExecutionError(Exception):

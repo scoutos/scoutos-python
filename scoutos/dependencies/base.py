@@ -4,6 +4,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Generic, TypedDict, TypeVar, Unpack
 
+from scoutos.constants import THE_START_OF_TIME_AND_SPACE
 from scoutos.utils import get_nested_value_from_dict
 
 if TYPE_CHECKING:  # pragma: no cover
@@ -21,6 +22,7 @@ class DefaultValue(Generic[T]):
 class DependencyOptions(Generic[T], TypedDict, total=False):
     default_value: T
     key: str
+    requires_rerun: bool
 
 
 class Dependency(ABC, Generic[T]):
@@ -39,6 +41,7 @@ class Dependency(ABC, Generic[T]):
         )
         self._key = options.get("key", path.split(".")[-1])
         self._path = path
+        self._requires_rerun = options.get("requires_rerun", False)
 
     @property
     def block_id(self) -> str:
@@ -66,33 +69,46 @@ class Dependency(ABC, Generic[T]):
 
         return ".".join(segments)
 
+    @property
+    def requires_rerun(self) -> bool:
+        """Returns True, if this dependency has been declared that it should be
+        rerun each time it is to be resolved."""
+        return self._requires_rerun
+
     def __str__(self):  # pragma: no cover
         return f"Dependency(block_id={self.block_id}, path={self.path}, key={self.key}, default_value={self.default_value})"  # noqa: E501
 
     def is_resolved(
         self,
         current_output: list[BlockOutput],
+        *,
+        since: str = THE_START_OF_TIME_AND_SPACE,
     ) -> bool:
         return (
-            self.resolved_with(current_output) is not None or self.default_value.is_set
+            self.resolved_with(current_output, since=since) is not None
+            or self.default_value.is_set
         )
 
     def resolved_with(
         self,
         current_output: list[BlockOutput],
+        *,
+        since: str,
     ) -> BlockOutput | None:
-        for record in current_output:
-            if record.block_id == self.block_id:
+        for record in current_output[::-1]:
+            if record.block_id == self.block_id and record.block_run_end_ts > since:
                 return record
 
         return None
 
-    def resolve(self, current_output: list[BlockOutput]) -> T:
+    def resolve(
+        self, current_output: list[BlockOutput], *, since: str = "1970-01-01"
+    ) -> T:
         """Given the `current_output` evaluate the value of the dependency if
         present. Raise if the dependency is not found and no default has been
         provided.
         """
-        resolving_output = self.resolved_with(current_output)
+        resolving_output = self.resolved_with(current_output, since=since)
 
         if resolving_output is None and not self.default_value.is_set:
             message = f"No result for {self.block_id} found"
