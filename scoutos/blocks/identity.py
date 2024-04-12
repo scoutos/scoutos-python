@@ -16,4 +16,3 @@ class Identity(Block):
 
     async def run(self, run_input: dict) -> dict:
         return run_input
-

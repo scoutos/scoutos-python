@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import json
-
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, TypeVar
 from uuid import uuid4
@@ -29,7 +28,7 @@ class RunResult:
     ok: bool
     session_id: str
 
-    def __str__(self) -> str:
+    def __str__(self) -> str:  # pragma: no cover
         return "\n".join(
             [
                 f"App Id: {self.app_run_id}",
