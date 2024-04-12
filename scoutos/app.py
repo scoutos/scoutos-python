@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import json
+
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, TypeVar
 from uuid import uuid4
@@ -26,6 +28,21 @@ class RunResult:
     block_output: list[BlockOutput]
     ok: bool
     session_id: str
+
+    def __str__(self) -> str:
+        return "\n".join(
+            [
+                f"App Id: {self.app_run_id}",
+                f"Session Id: {self.session_id}",
+                f"App Run Id: {self.app_run_id}",
+                f"Run Started At: {self.app_run_start_ts}",
+                f"Run Completed At: {self.app_run_end_ts}",
+                f"Status: {self.ok}",
+                f"Blocks Executed: {self.app_run_path}",
+                "---",
+                json.dumps(self.app_output, indent=2),
+            ]
+        )
 
 
 class App:

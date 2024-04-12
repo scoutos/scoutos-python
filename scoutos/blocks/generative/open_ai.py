@@ -1,4 +1,8 @@
+from typing import Unpack
+
 from openai import OpenAI as OGOpenAI
+
+from scoutos.blocks import BlockCommonArgs
 
 from .base import Generative
 from .types import GenerativeOutput
@@ -7,8 +11,8 @@ from .types import GenerativeOutput
 class OpenAI(Generative):
     """Generative AI using OpenAI models."""
 
-    def __init__(self, *, key: str, api_key: str, model: str):
-        super().__init__(key=key)
+    def __init__(self, *, api_key: str, model: str, **kwargs: Unpack[BlockCommonArgs]):
+        super().__init__(**kwargs)
         self._api_key = api_key
         self._model = model
 
