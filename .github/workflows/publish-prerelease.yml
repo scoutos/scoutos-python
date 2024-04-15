@@ -1,12 +1,12 @@
 name: Publish Prerelease
 on:
+  push:
   workflow_run:
     workflows: ["checks"]
     types:
       - completed
     branches:
       - main
-      - 'publish-prerelease-versions'
 jobs:
   notify:
     runs-on: ubuntu-latest
