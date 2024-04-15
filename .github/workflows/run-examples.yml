@@ -1,0 +1,32 @@
+name: "Run Examples"
+on:
+  push:
+    branches:
+      - main
+      - PROD-567
+
+jobs:
+  main:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        PYTHON_VERSION: ["3.11", "3.12"]
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Poetry
+        run: pipx install poetry
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.PYTHON_VERSION }}
+          cache: 'poetry'
+
+      - name: Run Examples
+        run: ./scripts/run_examples.sh
+
