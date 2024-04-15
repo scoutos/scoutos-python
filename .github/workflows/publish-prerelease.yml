@@ -27,7 +27,7 @@ jobs:
       - name: Update package version
         run: |
           COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
-          NEW_VERSION=$(poetry version prerelease | awk '{print $2}').dev${COMMIT_SHA}
+          NEW_VERSION=$(poetry version prerelease --short).dev${COMMIT_SHA}
           echo "New version: $NEW_VERSION"
           poetry version $NEW_VERSION
 
