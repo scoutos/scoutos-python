@@ -2,16 +2,14 @@ from __future__ import annotations
 
 import pickle
 from pathlib import Path
-from typing import TYPE_CHECKING, Any
+from typing import Any
 from unittest.mock import MagicMock
 
 import pytest
 
 from scoutos.blocks import Block
 from scoutos.blocks.generative import Generative, OpenAI
-
-if TYPE_CHECKING:  # pragma: no cover
-    from scoutos.blocks.generative.types import GenerativeInput, GenerativeOutput
+from scoutos.blocks.generative.types import GenerativeInput, GenerativeOutput
 
 
 def get_fixture_path(fixture_name: str) -> Path:
@@ -30,7 +28,7 @@ def get_fixture_contents(fixture_name: str) -> Any:
         return pickle.load(f)  # noqa: S301
 
 
-def write_fixture(obj: Any, fixture_name: str):
+def write_fixture(obj: Any, fixture_name: str) -> None:
     """This can be used to write out response data to a fixture.
 
     To use, uncomment any mocking that is done, hit the real service, and use
@@ -51,7 +49,7 @@ def initialize_block(
     api_key: str = "sooper-secret-api-key-shush",
     key: str = "test-generative-block",
     model: str = "gpt-3.5-turbo",
-):
+) -> OpenAI:
     return OpenAI(
         api_key=api_key,
         key=key,
@@ -78,40 +76,44 @@ async def test_run(mocker):
         "open_ai_completion_response"
     )
 
-    run_input: GenerativeInput = {
-        "messages": [
-            {
-                "role": "system",
-                "content": "You are a stubborn assitant who only replies with a single 'hello' no matter what the user asks you.",  # noqa: E501
-            },
-            {
-                "role": "user",
-                "content": "What is the weather like in San Francisco next Friday?",
-            },
-        ]
-    }
-
-    expected_output: GenerativeOutput = {
-        "id": "chatcmpl-9A1NXZruNFoJV4IEH9jIZobebHJxJ",
-        "model": "gpt-3.5-turbo-0125",
-        "usage": {
-            "input_tokens": 45,
-            "output_tokens": 2,
-        },
-        "choices": [
-            {
-                "index": 0,
-                "finish_reason": "stop",
-                "message": {
-                    "content": "Hello.",
-                    "role": "assistant",
+    run_input = GenerativeInput(
+        {
+            "messages": [
+                {
+                    "role": "system",
+                    "content": "You are a stubborn assitant who only replies with a single 'hello' no matter what the user asks you.",  # noqa: E501
                 },
-            }
-        ],
-    }
+                {
+                    "role": "user",
+                    "content": "What is the weather like in San Francisco next Friday?",
+                },
+            ]
+        }
+    )
+
+    expected_output = GenerativeOutput(
+        {
+            "id": "chatcmpl-9A1NXZruNFoJV4IEH9jIZobebHJxJ",
+            "model": "gpt-3.5-turbo-0125",
+            "usage": {
+                "input_tokens": 45,
+                "output_tokens": 2,
+            },
+            "choices": [
+                {
+                    "index": 0,
+                    "finish_reason": "stop",
+                    "message": {
+                        "content": "Hello.",
+                        "role": "assistant",
+                    },
+                }
+            ],
+        }
+    )
 
     block = initialize_block()
-    result = await block.run(run_input)
+    result = await block.run(dict(run_input))
 
     mock_client.chat.completions.create.assert_called_once_with(
         model="gpt-3.5-turbo",
