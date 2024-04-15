@@ -1,0 +1,16 @@
+name: Publish Prerelease
+on:
+  workflow_run:
+    workflows: ["checks"]
+    types:
+      - completed
+    # branches:
+    #   - main
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    steps:
+    - name: Run dependent job
+      run: echo "This runs only if the Primary Workflow was successful."
+
