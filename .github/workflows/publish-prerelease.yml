@@ -4,8 +4,9 @@ on:
     workflows: ["checks"]
     types:
       - completed
-    # branches:
-    #   - main
+    branches:
+      - main
+      - 'publish-prerelease-versions'
 jobs:
   notify:
     runs-on: ubuntu-latest
