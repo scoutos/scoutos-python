@@ -15,15 +15,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
+      - name: Setup Poetry
+        run: pipx install poetry
+
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           cache: 'poetry'
           python-version-file: '.python-version'
-
-      - name: Setup Poetry
-        uses: snok/install-poetry@v1
-
 
       - name: Update package version
         run: |
