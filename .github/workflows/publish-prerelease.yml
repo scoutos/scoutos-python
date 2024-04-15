@@ -9,9 +9,29 @@ on:
       - main
 jobs:
   main:
+    timeout-minutes: 10
     runs-on: ubuntu-latest
-    # if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-    - name: Run dependent job
-      run: echo "This runs only if the Primary Workflow was successful."
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          cache: 'poetry'
+          python-version-file: '.python-version'
+
+      - name: Setup Poetry
+        uses: snok/install-poetry@v1
+
+
+      - name: Update package version
+        run: |
+          COMMIT_SHA=$(echo $GITHUB_SHA | cut -c1-7)
+          poetry version prerelease
+          NEW_VERSION=$(poetry version | awk '{print $2}')+${COMMIT_SHA}
+          echo $NEW_VERSION
+          poetry version $NEW_VERSION
+
+      - name: Build
+        run: poetry build
