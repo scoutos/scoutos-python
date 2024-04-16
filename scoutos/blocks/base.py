@@ -1,10 +1,11 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
+from abc import ABC, ABCMeta, abstractmethod, abstractclassmethod
 from dataclasses import dataclass
 from typing import (
     TYPE_CHECKING,
     Callable,
+    ClassVar,
     Generic,
     Required,
     TypedDict,
@@ -52,12 +53,49 @@ class BlockOutput(Generic[RunOutput]):
     output: RunOutput
 
 
-class Block(ABC, Generic[RunInput, RunOutput]):
+BLOCK_TYPE_KEY = "BLOCK_TYPE"
+
+
+class BlockMeta(ABCMeta):
+    REGISTERED_BLOCKS: ClassVar = {}
+
+    def __new__(cls, name, bases, dct):
+        block_cls = super().__new__(cls, name, bases, dct)
+
+        if not dct.get("_is_base_class", False):
+            block_type = dct.get(BLOCK_TYPE_KEY)
+            if block_type is None or not isinstance(block_type, str):
+                message = f"Expected {name} to define {BLOCK_TYPE_KEY} in {dct}"
+                raise ValueError(message)
+
+            cls.REGISTERED_BLOCKS[block_type] = block_cls
+
+        return block_cls
+
+
+class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
     """This is the base block that all other Blocks will inherit from."""
 
     DEFAULT_MAX_RUNS = 10
 
     _initialized_with_super = False
+    _is_base_class = True
+
+    @classmethod
+    def load(cls, data: dict) -> Block:
+        block_type_key = "block_type"
+        block_type = data.get(block_type_key)
+        if not block_type:
+            message = f"Expected {block_type_key} to be provided"
+            raise ValueError(message)
+
+        block_cls = BlockMeta.REGISTERED_BLOCKS.get(block_type)
+        if not block_cls:
+            message = f"{block_type} is not registered"
+            raise ValueError(message)
+
+        data.pop(block_type_key)
+        return block_cls(**data)
 
     def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
         self._initialized_with_super = True

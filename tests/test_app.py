@@ -25,6 +25,8 @@ def test_get_output_raises_if_not_present():
 @pytest.mark.asyncio()
 async def test_raises_if_block_has_exceeded_run_count():
     class WillExceedRuncount(Block):
+        BLOCK_TYPE = "test_will_exceed_runcount"
+
         @property
         def has_exceeded_run_count(self) -> bool:
             return True

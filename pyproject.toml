@@ -38,6 +38,7 @@ indent-width = 4
 select = ["ALL"]
 ignore = [
   "ANN101",
+  "ANN102",
   "ANN204",
   "COM812",
   "D",
