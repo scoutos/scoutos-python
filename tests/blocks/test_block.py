@@ -81,7 +81,7 @@ def test_it_raises_when_missing_key():
         async def run(self, run_input: dict) -> dict:
             return run_input
 
-    data: dict = {"block_type": AnotherBlock.BLOCK_TYPE}
+    data = {"block_type": AnotherBlock.BLOCK_TYPE}
 
     with pytest.raises(KeyError, match="key"):
         Block.load(data)

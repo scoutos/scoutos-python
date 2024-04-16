@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from abc import ABC, ABCMeta, abstractmethod, abstractclassmethod
+from abc import ABC, ABCMeta, abstractmethod
 from dataclasses import dataclass
 from typing import (
     TYPE_CHECKING,
@@ -59,7 +59,7 @@ BLOCK_TYPE_KEY = "BLOCK_TYPE"
 class BlockMeta(ABCMeta):
     REGISTERED_BLOCKS: ClassVar = {}
 
-    def __new__(cls, name, bases, dct):
+    def __new__(cls, name, bases, dct):  # noqa: ANN001
         block_cls = super().__new__(cls, name, bases, dct)
 
         if not dct.get("_is_base_class", False):
