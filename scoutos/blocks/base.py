@@ -81,6 +81,14 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
     _initialized_with_super = False
     _is_base_class = True
 
+    def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
+        self._initialized_with_super = True
+        self._key = kwargs["key"]
+        self._depends = kwargs.get("depends", [])
+        self._run_until = kwargs.get("run_until", lambda _data: True)
+        self._max_runs = kwargs.get("max_runs", self.DEFAULT_MAX_RUNS)
+        self._output: list[BlockOutput[RunOutput]] = []
+
     @classmethod
     def load(cls, data: dict) -> Block:
         block_type_key = "block_type"
@@ -96,14 +104,6 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
 
         data.pop(block_type_key)
         return block_cls(**data)
-
-    def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
-        self._initialized_with_super = True
-        self._key = kwargs["key"]
-        self._depends = kwargs.get("depends", [])
-        self._run_until = kwargs.get("run_until", lambda _data: True)
-        self._max_runs = kwargs.get("max_runs", self.DEFAULT_MAX_RUNS)
-        self._output: list[BlockOutput[RunOutput]] = []
 
     @property
     def depends(self) -> list[Dependency]:

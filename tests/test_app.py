@@ -22,6 +22,24 @@ def test_get_output_raises_if_not_present():
         app.get_output(missing_block_id)
 
 
+def test_it_loads_from_valid_data():
+    data = {
+        "blocks": [
+            {
+                "block_type": Block.REGISTERED_BLOCKS["scoutos_input"].BLOCK_TYPE,
+                "key": "test_input",
+            },
+            {
+                "block_type": Block.REGISTERED_BLOCKS["scoutos_output"].BLOCK_TYPE,
+                "key": "test_output",
+            },
+        ]
+    }
+    app = App.load(data)
+
+    assert isinstance(app, App)
+
+
 @pytest.mark.asyncio()
 async def test_raises_if_block_has_exceeded_run_count():
     class WillExceedRuncount(Block):
