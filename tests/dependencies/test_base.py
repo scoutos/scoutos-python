@@ -24,10 +24,63 @@ def create_block_run_output(block_id: str, output: dict) -> BlockOutput:
 
 def create_dependency(path: str, **kwargs: Unpack[DependencyOptions]) -> Dependency:
     class StubbedStrDependency(Dependency[str]):
+        TYPE = "stubbed_str_dep"
+
         def parse(self, value: Any) -> str:
             return str(value)
 
     return StubbedStrDependency(path, **kwargs)
+
+
+def test_it_loads_from_valid_data():
+    class SomeDependency(Dependency[str]):
+        TYPE = "scoutos_some_dependency"
+
+        def parse(self, value: Any) -> str:
+            return str(value)
+
+    data = {
+        "type": SomeDependency.TYPE,
+        "path": "block_id.some.path",
+    }
+
+    obj = Dependency.load(data)
+
+    assert isinstance(obj, Dependency)
+    assert isinstance(obj, SomeDependency)
+
+
+def test_class_raises_on_initlialization_if_missing_dep_type():
+    with pytest.raises(ValueError, match="define TYPE"):
+
+        class InvalidDep(Dependency[str]):
+            def parse(self, value: Any) -> str:
+                return str(value)
+
+
+def test_raises_on_load_if_missing_type():
+    class SomeDependency(Dependency[str]):
+        TYPE = "scoutos_some_dependency"
+
+        def parse(self, value: Any) -> str:
+            return str(value)
+
+    data = {
+        "path": "block_id.some.path",
+    }
+
+    with pytest.raises(ValueError, match="Expected type to be provided"):
+        Dependency.load(data)
+
+
+def test_it_raises_when_unregistered_dep_specified():
+    data = {
+        "type": "unregistered_block_type",
+        "path": "block_id.some.path",
+    }
+
+    with pytest.raises(ValueError, match="not registered"):
+        Dependency.load(data)
 
 
 @pytest.mark.parametrize(
