@@ -5,14 +5,23 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING, TypeVar
 from uuid import uuid4
 
+from pydantic import BaseModel
+
+from scoutos.blocks.base import Block
 from scoutos.constants import THE_START_OF_TIME_AND_SPACE
-from scoutos.utils import get_current_timestamp
+from scoutos.utils import get_current_timestamp, read_data_from_file
 
 if TYPE_CHECKING:  # pragma: no cover
-    from scoutos.blocks.base import Block, BlockOutput
+    from pathlib import Path
+
+    from scoutos.blocks.base import BlockOutput
 
 
 InitialInput = TypeVar("InitialInput", bound=dict)
+
+
+class AppConfig(BaseModel):
+    blocks: list[dict]
 
 
 @dataclass
@@ -47,10 +56,21 @@ class RunResult:
 class App:
     """App is the entrypoint to ScoutOS Gen-AI Powered Applications."""
 
-    def __init__(self, *, blocks: list[Block]):
+    def __init__(self, blocks: list[Block]):
         self._blocks = {block.key: block for block in blocks}
         self._block_outputs: list[BlockOutput] = []
         self._initial_input: dict = {}
+
+    @classmethod
+    def load(cls, data: dict) -> App:
+        config = AppConfig.model_validate(data)
+        blocks = [Block.load(block_data) for block_data in config.blocks]
+        return App(blocks)
+
+    @classmethod
+    def load_from_file(cls, path: Path) -> App:
+        data = read_data_from_file(path)
+        return cls.load(data)
 
     @property
     def blocks(self) -> dict[str, Block]:

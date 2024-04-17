@@ -11,6 +11,8 @@ from .types import GenerativeOutput
 class OpenAI(Generative):
     """Generative AI using OpenAI models."""
 
+    TYPE = "generative_openai"
+
     def __init__(self, *, api_key: str, model: str, **kwargs: Unpack[BlockCommonArgs]):
         super().__init__(**kwargs)
         self._api_key = api_key

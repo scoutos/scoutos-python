@@ -10,7 +10,7 @@ repository = "https://github.com/otherwillhq/scoutos-python/examples/usage_from_
 
 [tool.poetry.dependencies]
 python = "^3.11"
-scoutos = { git="https://github.com/otherwillhq/scoutos-python.git", branch="main" }
+scoutos = { path="../..", develop=true }
 python-dotenv = "^1.0.1"
 
 

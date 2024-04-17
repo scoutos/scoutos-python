@@ -4,6 +4,8 @@ from scoutos.dependencies.base import Dependency, UnsatisfiedDependencyError
 
 
 class AnyDependency(Dependency[Any]):
+    TYPE = "any"
+
     def parse(self, value: Any) -> Any:  # noqa: ANN401
         if value is None:
             message = f"Value not found for path ({self.block_id}.{self.path})"

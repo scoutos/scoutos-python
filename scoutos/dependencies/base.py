@@ -1,14 +1,36 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
+from abc import ABC, ABCMeta, abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, Generic, TypedDict, TypeVar, Unpack
+from typing import TYPE_CHECKING, Any, ClassVar, Generic, TypedDict, TypeVar, Unpack
 
 from scoutos.constants import THE_START_OF_TIME_AND_SPACE
 from scoutos.utils import get_nested_value_from_dict
 
 if TYPE_CHECKING:  # pragma: no cover
     from scoutos.blocks.base import BlockOutput
+
+
+DEPENDENCY_TYPE_ATTR = "TYPE"
+DEPENDENCY_TYPE_KEY = "type"
+
+
+class DependencyMeta(ABCMeta):
+    REGISTERED_DEPENDENCIES: ClassVar = {}
+
+    def __new__(cls, name, bases, dct):  # noqa: ANN001
+        dependency_cls = super().__new__(cls, name, bases, dct)
+
+        if not dct.get("_is_base_class", False):
+            dependency_type = dct.get(DEPENDENCY_TYPE_ATTR)
+            if dependency_type is None or not isinstance(dependency_type, str):
+                message = f"Expected {name} to define {DEPENDENCY_TYPE_ATTR} in {dct}"
+                raise ValueError(message)
+
+            cls.REGISTERED_DEPENDENCIES[dependency_type] = dependency_cls
+
+        return dependency_cls
+
 
 T = TypeVar("T")
 
@@ -25,7 +47,24 @@ class DependencyOptions(Generic[T], TypedDict, total=False):
     requires_rerun: bool
 
 
-class Dependency(ABC, Generic[T]):
+class Dependency(ABC, Generic[T], metaclass=DependencyMeta):
+    _is_base_class = True
+
+    @classmethod
+    def load(cls, data: dict) -> Dependency:
+        dependency_type = data.get(DEPENDENCY_TYPE_KEY)
+        if not dependency_type:
+            message = f"Expected {DEPENDENCY_TYPE_KEY} to be provided"
+            raise ValueError(message)
+
+        dependency_cls = DependencyMeta.REGISTERED_DEPENDENCIES.get(dependency_type)
+        if not dependency_cls:
+            message = f"{dependency_type} is not registered"
+            raise ValueError(message)
+
+        data.pop(DEPENDENCY_TYPE_KEY)
+        return dependency_cls(**data)
+
     def __init__(
         self,
         path: str,

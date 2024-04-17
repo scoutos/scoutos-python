@@ -6,6 +6,8 @@ from scoutos.dependencies.base import Dependency, UnsatisfiedDependencyError
 
 
 class FloatDependency(Dependency[float]):
+    TYPE = "float"
+
     adapter = TypeAdapter(float)
 
     def parse(self, value: Any) -> float:  # noqa: ANN401

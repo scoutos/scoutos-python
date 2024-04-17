@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
+from abc import ABC, ABCMeta, abstractmethod
 from dataclasses import dataclass
 from typing import (
-    TYPE_CHECKING,
     Callable,
+    ClassVar,
     Generic,
     Required,
     TypedDict,
@@ -13,10 +13,8 @@ from typing import (
 )
 from uuid import uuid4
 
+from scoutos.dependencies.base import Dependency
 from scoutos.utils import get_current_timestamp
-
-if TYPE_CHECKING:  # pragma: no cover
-    from scoutos.dependencies.base import Dependency
 
 RunInput = TypeVar("RunInput")
 RunOutput = TypeVar("RunOutput")
@@ -52,12 +50,34 @@ class BlockOutput(Generic[RunOutput]):
     output: RunOutput
 
 
-class Block(ABC, Generic[RunInput, RunOutput]):
+BLOCK_TYPE_ATTR = "TYPE"
+BLOCK_TYPE_KEY = "type"
+
+
+class BlockMeta(ABCMeta):
+    REGISTERED_BLOCKS: ClassVar = {}
+
+    def __new__(cls, name, bases, dct):  # noqa: ANN001
+        block_cls = super().__new__(cls, name, bases, dct)
+
+        if not dct.get("_is_base_class", False):
+            block_type = dct.get(BLOCK_TYPE_ATTR)
+            if block_type is None or not isinstance(block_type, str):
+                message = f"Expected {name} to define {BLOCK_TYPE_ATTR} in {dct}"
+                raise ValueError(message)
+
+            cls.REGISTERED_BLOCKS[block_type] = block_cls
+
+        return block_cls
+
+
+class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
     """This is the base block that all other Blocks will inherit from."""
 
     DEFAULT_MAX_RUNS = 10
 
     _initialized_with_super = False
+    _is_base_class = True
 
     def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
         self._initialized_with_super = True
@@ -66,6 +86,23 @@ class Block(ABC, Generic[RunInput, RunOutput]):
         self._run_until = kwargs.get("run_until", lambda _data: True)
         self._max_runs = kwargs.get("max_runs", self.DEFAULT_MAX_RUNS)
         self._output: list[BlockOutput[RunOutput]] = []
+
+    @classmethod
+    def load(cls, data: dict) -> Block:
+        block_type = data.get(BLOCK_TYPE_KEY)
+        if not block_type:
+            message = f"Expected {BLOCK_TYPE_KEY} to be provided"
+            raise ValueError(message)
+
+        block_cls = BlockMeta.REGISTERED_BLOCKS.get(block_type)
+        if not block_cls:
+            message = f"{block_type} is not registered"
+            raise ValueError(message)
+
+        data.pop(BLOCK_TYPE_KEY)
+        depends = [Dependency.load(dep_data) for dep_data in data.pop("depends", [])]
+
+        return block_cls(**data, depends=depends)
 
     @property
     def depends(self) -> list[Dependency]:

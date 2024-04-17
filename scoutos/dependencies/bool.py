@@ -6,6 +6,8 @@ from scoutos.dependencies.base import Dependency, UnsatisfiedDependencyError
 
 
 class BoolDependency(Dependency[bool]):
+    TYPE = "bool"
+
     adapter = TypeAdapter(bool)
 
     def parse(self, value: Any) -> bool:  # noqa: ANN401

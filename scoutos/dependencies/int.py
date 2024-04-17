@@ -6,6 +6,8 @@ from scoutos.dependencies.base import Dependency, UnsatisfiedDependencyError
 
 
 class IntDependency(Dependency[int]):
+    TYPE = "int"
+
     adapter = TypeAdapter(int)
 
     def parse(self, value: Any) -> int:  # noqa: ANN401

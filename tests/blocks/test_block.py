@@ -12,6 +12,8 @@ from scoutos.dependencies import Depends
 
 
 class MinimalBlockStub(Block):
+    TYPE = "test_minimal_block_stub"
+
     async def run(self, run_input: dict) -> dict:
         return run_input
 
@@ -27,9 +29,69 @@ def create_block_output(block_id: str, output: dict) -> BlockOutput:
     )
 
 
+def test_it_raises_when_block_type_is_not_provided():
+    data = {}
+
+    with pytest.raises(ValueError, match="Expected type to be provided"):
+        Block.load(data)
+
+
+def test_it_raises_when_invalid_block_type_is_provided():
+    with pytest.raises(ValueError, match="TYPE"):
+
+        class BlockMissingBlockType(Block):
+            pass
+
+
+def test_it_raises_when_unregisterd_block_type_provided():
+    data = {
+        "type": "unregistered_block_type",
+    }
+
+    with pytest.raises(ValueError, match="not registered"):
+        Block.load(data)
+
+
+def test_it_loads_from_valid_data():
+    class SomeBlock(Block):
+        TYPE = "test_some_block"
+
+        def __init__(self, foo: str, **kwargs: Unpack[BlockCommonArgs]):
+            super().__init__(**kwargs)
+            self._foo = foo
+
+        async def run(self, run_input: dict) -> dict:
+            return run_input
+
+    data = {"type": SomeBlock.TYPE, "key": "some_block", "foo": "baz"}
+
+    some_block_instance = Block.load(data)
+
+    assert isinstance(some_block_instance, SomeBlock)
+    assert isinstance(some_block_instance, Block)
+
+
+def test_it_raises_when_missing_key():
+    class AnotherBlock(Block):
+        TYPE = "test_another_block"
+
+        def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
+            super().__init__(**kwargs)
+
+        async def run(self, run_input: dict) -> dict:
+            return run_input
+
+    data = {"type": AnotherBlock.TYPE}
+
+    with pytest.raises(KeyError, match="key"):
+        Block.load(data)
+
+
 @pytest.mark.asyncio()
-async def test_it_raises_if_not_initialized():
+async def test_it_raises_if_not_initialized_with_super():
     class ImproperlyInitializedBlock(Block):
+        TYPE = "test_improperly_initialized_block"
+
         def __init__(self, *, key: str):
             self._key = key
 
@@ -45,6 +107,8 @@ async def test_it_raises_if_not_initialized():
 @pytest.mark.asyncio()
 async def test_it_runs():
     class SomeBlockSubclass(Block):
+        TYPE = "test_some_block_subclass"
+
         def __init__(self, *, suffix: str, **kwargs: Unpack[BlockCommonArgs]):
             super().__init__(**kwargs)
             self._suffix = suffix

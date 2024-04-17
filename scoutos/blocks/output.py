@@ -18,6 +18,8 @@ class Output(Block):
     for the application.
     """
 
+    TYPE = "scoutos_output"
+
     def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
         kwargs["key"] = OUTPUT_BLOCK_ID
         super().__init__(**kwargs)

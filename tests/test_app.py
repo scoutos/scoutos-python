@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from scoutos import App, AppExecutionError, Depends
@@ -22,9 +24,55 @@ def test_get_output_raises_if_not_present():
         app.get_output(missing_block_id)
 
 
+def test_it_loads_from_valid_data():
+    data = {
+        "blocks": [
+            {
+                "type": Block.REGISTERED_BLOCKS["scoutos_input"].TYPE,
+                "key": "test_input",
+            },
+            {
+                "type": Block.REGISTERED_BLOCKS["scoutos_output"].TYPE,
+                "key": "test_output",
+            },
+        ]
+    }
+    app = App.load(data)
+
+    assert isinstance(app, App)
+
+
+def test_it_loads_from_file(monkeypatch):
+    def mock_read_data_from_file(_path: Path) -> dict:
+        return {
+            "id": "APP-ID-1234",
+            "blocks": [
+                {
+                    "type": Block.REGISTERED_BLOCKS["scoutos_input"].TYPE,
+                    "key": "test_input",
+                },
+                {
+                    "type": Block.REGISTERED_BLOCKS["scoutos_output"].TYPE,
+                    "key": "test_output",
+                },
+            ],
+        }
+
+    monkeypatch.setattr(
+        "scoutos.app.read_data_from_file",
+        mock_read_data_from_file,
+    )
+    path = Path("./some-app-config.yaml")
+    app = App.load_from_file(path)
+
+    assert isinstance(app, App)
+
+
 @pytest.mark.asyncio()
 async def test_raises_if_block_has_exceeded_run_count():
     class WillExceedRuncount(Block):
+        TYPE = "test_will_exceed_runcount"
+
         @property
         def has_exceeded_run_count(self) -> bool:
             return True

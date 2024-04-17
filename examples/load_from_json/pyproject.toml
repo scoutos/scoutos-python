@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "load-from-json"
+version = "0.1.0"
+description = "This example demonstrates how to load an app from a `.json` file."
+authors = []
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/otherwillhq/scoutos-python/examples/load_from_json"
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+scoutos = { path="../..", develop=true}
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.3.7"
+mypy = "^1.9.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
