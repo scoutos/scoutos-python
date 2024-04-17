@@ -9,9 +9,11 @@ from pydantic import BaseModel
 
 from scoutos.blocks.base import Block
 from scoutos.constants import THE_START_OF_TIME_AND_SPACE
-from scoutos.utils import get_current_timestamp
+from scoutos.utils import get_current_timestamp, read_data_from_file
 
 if TYPE_CHECKING:  # pragma: no cover
+    from pathlib import Path
+
     from scoutos.blocks.base import BlockOutput
 
 
@@ -64,6 +66,11 @@ class App:
         config = AppConfig.model_validate(data)
         blocks = [Block.load(block_data) for block_data in config.blocks]
         return App(blocks)
+
+    @classmethod
+    def load_from_file(cls, path: Path) -> App:
+        data = read_data_from_file(path)
+        return cls.load(data)
 
     @property
     def blocks(self) -> dict[str, Block]:

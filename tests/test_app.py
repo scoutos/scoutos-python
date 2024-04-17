@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from scoutos import App, AppExecutionError, Depends
@@ -36,6 +38,32 @@ def test_it_loads_from_valid_data():
         ]
     }
     app = App.load(data)
+
+    assert isinstance(app, App)
+
+
+def test_it_loads_from_file(monkeypatch):
+    def mock_read_data_from_file(_path: Path) -> dict:
+        return {
+            "id": "APP-ID-1234",
+            "blocks": [
+                {
+                    "block_type": Block.REGISTERED_BLOCKS["scoutos_input"].BLOCK_TYPE,
+                    "key": "test_input",
+                },
+                {
+                    "block_type": Block.REGISTERED_BLOCKS["scoutos_output"].BLOCK_TYPE,
+                    "key": "test_output",
+                },
+            ],
+        }
+
+    monkeypatch.setattr(
+        "scoutos.app.read_data_from_file",
+        mock_read_data_from_file,
+    )
+    path = Path("./some-app-config.yaml")
+    app = App.load_from_file(path)
 
     assert isinstance(app, App)
 
