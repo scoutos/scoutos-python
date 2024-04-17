@@ -1,0 +1,18 @@
+blocks:
+  - key: "input"
+    block_type: "scoutos_input"
+    depends:
+      - type: "str"
+        path: "name"
+        default_value: "You"
+  - key: "template"
+    block_type: "scoutos_template"
+    template: "Hello, {{name}}!"
+    depends:
+      - type: "str"
+        path: "input.name"
+  - key: "output"
+    block_type: "scoutos_output"
+    depends:
+      - type: "str"
+        path: "template.result"
