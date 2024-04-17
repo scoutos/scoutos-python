@@ -1,0 +1,36 @@
+{
+  "blocks": [
+    {
+      "block_type": "scoutos_input",
+      "key": "input",
+      "depends": [
+        {
+          "type": "str",
+          "path": "name",
+          "default_value": "You"
+        }
+      ]
+    },
+    {
+      "block_type": "scoutos_template",
+      "key": "template",
+      "template": "Hello, {{name}}!",
+      "depends": [
+        {
+          "type": "str",
+          "path": "input.name"
+        }
+      ]
+    },
+    {
+      "block_type": "scoutos_output",
+      "key": "output",
+      "depends": [
+        {
+          "type": "str",
+          "path": "template.result"
+        }
+      ]
+    }
+  ]
+}

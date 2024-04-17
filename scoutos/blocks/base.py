@@ -14,10 +14,8 @@ from typing import (
 )
 from uuid import uuid4
 
+from scoutos.dependencies.base import Dependency
 from scoutos.utils import get_current_timestamp
-
-if TYPE_CHECKING:  # pragma: no cover
-    from scoutos.dependencies.base import Dependency
 
 RunInput = TypeVar("RunInput")
 RunOutput = TypeVar("RunOutput")
@@ -103,7 +101,9 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
             raise ValueError(message)
 
         data.pop(block_type_key)
-        return block_cls(**data)
+        depends = [Dependency.load(dep_data) for dep_data in data.pop("depends", [])]
+
+        return block_cls(**data, depends=depends)
 
     @property
     def depends(self) -> list[Dependency]:
