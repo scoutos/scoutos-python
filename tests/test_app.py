@@ -28,11 +28,11 @@ def test_it_loads_from_valid_data():
     data = {
         "blocks": [
             {
-                "block_type": Block.REGISTERED_BLOCKS["scoutos_input"].BLOCK_TYPE,
+                "type": Block.REGISTERED_BLOCKS["scoutos_input"].TYPE,
                 "key": "test_input",
             },
             {
-                "block_type": Block.REGISTERED_BLOCKS["scoutos_output"].BLOCK_TYPE,
+                "type": Block.REGISTERED_BLOCKS["scoutos_output"].TYPE,
                 "key": "test_output",
             },
         ]
@@ -48,11 +48,11 @@ def test_it_loads_from_file(monkeypatch):
             "id": "APP-ID-1234",
             "blocks": [
                 {
-                    "block_type": Block.REGISTERED_BLOCKS["scoutos_input"].BLOCK_TYPE,
+                    "type": Block.REGISTERED_BLOCKS["scoutos_input"].TYPE,
                     "key": "test_input",
                 },
                 {
-                    "block_type": Block.REGISTERED_BLOCKS["scoutos_output"].BLOCK_TYPE,
+                    "type": Block.REGISTERED_BLOCKS["scoutos_output"].TYPE,
                     "key": "test_output",
                 },
             ],
@@ -71,7 +71,7 @@ def test_it_loads_from_file(monkeypatch):
 @pytest.mark.asyncio()
 async def test_raises_if_block_has_exceeded_run_count():
     class WillExceedRuncount(Block):
-        BLOCK_TYPE = "test_will_exceed_runcount"
+        TYPE = "test_will_exceed_runcount"
 
         @property
         def has_exceeded_run_count(self) -> bool:

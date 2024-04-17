@@ -50,7 +50,8 @@ class BlockOutput(Generic[RunOutput]):
     output: RunOutput
 
 
-BLOCK_TYPE_KEY = "BLOCK_TYPE"
+BLOCK_TYPE_ATTR = "TYPE"
+BLOCK_TYPE_KEY = "type"
 
 
 class BlockMeta(ABCMeta):
@@ -60,9 +61,9 @@ class BlockMeta(ABCMeta):
         block_cls = super().__new__(cls, name, bases, dct)
 
         if not dct.get("_is_base_class", False):
-            block_type = dct.get(BLOCK_TYPE_KEY)
+            block_type = dct.get(BLOCK_TYPE_ATTR)
             if block_type is None or not isinstance(block_type, str):
-                message = f"Expected {name} to define {BLOCK_TYPE_KEY} in {dct}"
+                message = f"Expected {name} to define {BLOCK_TYPE_ATTR} in {dct}"
                 raise ValueError(message)
 
             cls.REGISTERED_BLOCKS[block_type] = block_cls
@@ -88,10 +89,9 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
 
     @classmethod
     def load(cls, data: dict) -> Block:
-        block_type_key = "block_type"
-        block_type = data.get(block_type_key)
+        block_type = data.get(BLOCK_TYPE_KEY)
         if not block_type:
-            message = f"Expected {block_type_key} to be provided"
+            message = f"Expected {BLOCK_TYPE_KEY} to be provided"
             raise ValueError(message)
 
         block_cls = BlockMeta.REGISTERED_BLOCKS.get(block_type)
@@ -99,7 +99,7 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
             message = f"{block_type} is not registered"
             raise ValueError(message)
 
-        data.pop(block_type_key)
+        data.pop(BLOCK_TYPE_KEY)
         depends = [Dependency.load(dep_data) for dep_data in data.pop("depends", [])]
 
         return block_cls(**data, depends=depends)

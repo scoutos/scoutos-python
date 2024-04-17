@@ -11,7 +11,7 @@ class Identity(Block):
     This block may be useful for testing and debugging.
     """
 
-    BLOCK_TYPE = "scoutos_identity"
+    TYPE = "scoutos_identity"
 
     def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
         super().__init__(**kwargs)

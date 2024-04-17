@@ -13,7 +13,7 @@ class Function(Block):
     This block may be useful for testing and debugging.
     """
 
-    BLOCK_TYPE = "scoutos_function"
+    TYPE = "scoutos_function"
 
     def __init__(self, fn: Fn, **kwargs: Unpack[BlockCommonArgs]):
         super().__init__(**kwargs)

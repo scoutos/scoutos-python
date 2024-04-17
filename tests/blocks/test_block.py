@@ -12,7 +12,7 @@ from scoutos.dependencies import Depends
 
 
 class MinimalBlockStub(Block):
-    BLOCK_TYPE = "test_minimal_block_stub"
+    TYPE = "test_minimal_block_stub"
 
     async def run(self, run_input: dict) -> dict:
         return run_input
@@ -32,12 +32,12 @@ def create_block_output(block_id: str, output: dict) -> BlockOutput:
 def test_it_raises_when_block_type_is_not_provided():
     data = {}
 
-    with pytest.raises(ValueError, match="Expected block_type to be provided"):
+    with pytest.raises(ValueError, match="Expected type to be provided"):
         Block.load(data)
 
 
 def test_it_raises_when_invalid_block_type_is_provided():
-    with pytest.raises(ValueError, match="BLOCK_TYPE"):
+    with pytest.raises(ValueError, match="TYPE"):
 
         class BlockMissingBlockType(Block):
             pass
@@ -45,7 +45,7 @@ def test_it_raises_when_invalid_block_type_is_provided():
 
 def test_it_raises_when_unregisterd_block_type_provided():
     data = {
-        "block_type": "unregistered_block_type",
+        "type": "unregistered_block_type",
     }
 
     with pytest.raises(ValueError, match="not registered"):
@@ -54,7 +54,7 @@ def test_it_raises_when_unregisterd_block_type_provided():
 
 def test_it_loads_from_valid_data():
     class SomeBlock(Block):
-        BLOCK_TYPE = "test_some_block"
+        TYPE = "test_some_block"
 
         def __init__(self, foo: str, **kwargs: Unpack[BlockCommonArgs]):
             super().__init__(**kwargs)
@@ -63,7 +63,7 @@ def test_it_loads_from_valid_data():
         async def run(self, run_input: dict) -> dict:
             return run_input
 
-    data = {"block_type": SomeBlock.BLOCK_TYPE, "key": "some_block", "foo": "baz"}
+    data = {"type": SomeBlock.TYPE, "key": "some_block", "foo": "baz"}
 
     some_block_instance = Block.load(data)
 
@@ -73,7 +73,7 @@ def test_it_loads_from_valid_data():
 
 def test_it_raises_when_missing_key():
     class AnotherBlock(Block):
-        BLOCK_TYPE = "test_another_block"
+        TYPE = "test_another_block"
 
         def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
             super().__init__(**kwargs)
@@ -81,7 +81,7 @@ def test_it_raises_when_missing_key():
         async def run(self, run_input: dict) -> dict:
             return run_input
 
-    data = {"block_type": AnotherBlock.BLOCK_TYPE}
+    data = {"type": AnotherBlock.TYPE}
 
     with pytest.raises(KeyError, match="key"):
         Block.load(data)
@@ -90,7 +90,7 @@ def test_it_raises_when_missing_key():
 @pytest.mark.asyncio()
 async def test_it_raises_if_not_initialized_with_super():
     class ImproperlyInitializedBlock(Block):
-        BLOCK_TYPE = "test_improperly_initialized_block"
+        TYPE = "test_improperly_initialized_block"
 
         def __init__(self, *, key: str):
             self._key = key
@@ -107,7 +107,7 @@ async def test_it_raises_if_not_initialized_with_super():
 @pytest.mark.asyncio()
 async def test_it_runs():
     class SomeBlockSubclass(Block):
-        BLOCK_TYPE = "test_some_block_subclass"
+        TYPE = "test_some_block_subclass"
 
         def __init__(self, *, suffix: str, **kwargs: Unpack[BlockCommonArgs]):
             super().__init__(**kwargs)

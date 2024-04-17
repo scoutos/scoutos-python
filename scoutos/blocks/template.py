@@ -6,7 +6,7 @@ from scoutos.blocks import Block, BlockCommonArgs
 
 
 class Template(Block):
-    BLOCK_TYPE = "scoutos_template"
+    TYPE = "scoutos_template"
 
     def __init__(self, *, template: str, **kwargs: Unpack[BlockCommonArgs]):
         super().__init__(**kwargs)

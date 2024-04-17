@@ -13,7 +13,7 @@ class Input(Block):
     It's responsiblity is to wrangle input and expose it to subsequent nodes.
     """
 
-    BLOCK_TYPE = "scoutos_input"
+    TYPE = "scoutos_input"
 
     def __init__(
         self,

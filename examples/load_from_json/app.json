@@ -1,7 +1,7 @@
 {
   "blocks": [
     {
-      "block_type": "scoutos_input",
+      "type": "scoutos_input",
       "key": "input",
       "depends": [
         {
@@ -12,7 +12,7 @@
       ]
     },
     {
-      "block_type": "scoutos_template",
+      "type": "scoutos_template",
       "key": "template",
       "template": "Hello, {{name}}!",
       "depends": [
@@ -23,7 +23,7 @@
       ]
     },
     {
-      "block_type": "scoutos_output",
+      "type": "scoutos_output",
       "key": "output",
       "depends": [
         {
