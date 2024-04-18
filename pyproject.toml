@@ -7,12 +7,16 @@ license = "MIT"
 readme = "README.md"
 repository = "https://github.com/otherwillhq/scoutos-python"
 
+[tool.poetry.scripts]
+scoutos = "scoutos.cli.main:app"
+
 [tool.poetry.dependencies]
 python = "^3.11"
 openai = "^1.16.1"
 jinja2 = "^3.1.3"
 pydantic = "^2.6.4"
 pyyaml = "^6.0.1"
+typer = "^0.12.3"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
