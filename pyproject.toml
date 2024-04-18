@@ -33,6 +33,11 @@ types-pyyaml = "^6.0.12.20240311"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.coverage.run]
+omit = [
+    "scoutos/cli/*",
+]
+
 [tool.mypy]
 exclude = "^examples/"
 
