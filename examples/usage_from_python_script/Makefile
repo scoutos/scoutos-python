@@ -21,5 +21,4 @@ teardown: clean
 
 .PHONY: test
 test: ## Run a test of the example
-	@echo "Testing the example..."
 	@poetry run python main.py "What should I do today?"
