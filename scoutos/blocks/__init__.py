@@ -1,5 +1,6 @@
 from .base import Block, BlockCommonArgs, BlockInitializationError
 from .function import Function
+from .http import Http
 from .identity import Identity
 from .input import Input
 from .output import Output
@@ -10,6 +11,7 @@ __all__ = [
     "BlockCommonArgs",
     "BlockInitializationError",
     "Function",
+    "Http",
     "Identity",
     "Input",
     "Output",
