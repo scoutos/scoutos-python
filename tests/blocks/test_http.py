@@ -26,7 +26,7 @@ async def test_json_response(mocker):  # noqa: ARG001
 
     result = await block.run({})
 
-    assert result == {"foo": "baz"}
+    assert result == {"result": {"foo": "baz"}}
 
 
 @pytest.mark.asyncio()
@@ -41,4 +41,4 @@ async def test_text_response(mocker):  # noqa: ARG001
 
     result = await block.run({})
 
-    assert result == "This is the expected text"
+    assert result == {"result": "This is the expected text"}
