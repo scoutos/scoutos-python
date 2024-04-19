@@ -27,8 +27,8 @@ class Http(Block):
         self._response_type = response_type
         self._url = url
 
-    async def run(self, run_input: dict) -> dict:
-        async with AsyncClient() as client:
+    async def run(self, run_input: dict) -> dict | str:
+        async with httpx.AsyncClient() as client:
             response = await client.request(
                 self._method,
                 self._url,
@@ -39,4 +39,4 @@ class Http(Block):
         if self._response_type == "json":
             return response.json()
 
-        return {"result": response.text}
+        return response.text

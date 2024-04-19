@@ -200,14 +200,3 @@ class BlockInitializationError(Exception):
 
     def __init__(self):
         super().__init__(self.MESSAGE)
-
-
-class BlockExecutionError(Exception):
-    """This is raises when blocks error out when executing"""
-
-    MESSAGE = """
-    An exception was raised when the block was executing
-    """
-
-    def __init__(self):
-        super().__init__(self.MESSAGE)

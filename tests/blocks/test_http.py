@@ -1,7 +1,10 @@
-import pytest
-from httpx import HTTPError
+from unittest.mock import patch
 
-from scoutos.blocks import Block, BlockExecutionError, Http
+import httpx
+import pytest
+
+from scoutos.blocks import Block
+from scoutos.blocks.http import Http
 
 
 def test_initialization():
@@ -12,30 +15,30 @@ def test_initialization():
 
 
 @pytest.mark.asyncio()
-async def test_response_when_ok():
+@patch(
+    "scoutos.blocks.http.httpx.AsyncClient.request",
+    return_value=httpx.Response(200, json={"foo": "baz"}),
+)
+async def test_json_response(mocker):  # noqa: ARG001
     block = Http(
-        key="test_http_block", url="https://www.tnez.dev", response_type="text"
+        key="test_http_block", url="https://www.example.com", response_type="json"
     )
 
     result = await block.run({})
 
-    assert result
+    assert result == {"foo": "baz"}
 
 
 @pytest.mark.asyncio()
-async def test_response_when_fails(monkeypatch):
-    def mock_httpx_request() -> None:
-        message = "This be the err"
-        raise HTTPError(message)
-
-    monkeypatch.setattr(
-        "scoutos.blocks.http.httpx.AysncClient",
-        mock_httpx_request,
-    )
+@patch(
+    "scoutos.blocks.http.httpx.AsyncClient.request",
+    return_value=httpx.Response(200, text="This is the expected text"),
+)
+async def test_text_response(mocker):  # noqa: ARG001
     block = Http(
-        key="test_http_block_failing",
-        url="https://www.tnez.dev",
+        key="test_http_block", url="https://www.example.com", response_type="text"
     )
 
-    with pytest.raises(BlockExecutionError):
-        await block.run({})
+    result = await block.run({})
+
+    assert result == "This is the expected text"
