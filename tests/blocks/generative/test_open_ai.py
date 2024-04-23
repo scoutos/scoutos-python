@@ -51,9 +51,11 @@ def initialize_block(
     model: str = "gpt-3.5-turbo",
 ) -> OpenAI:
     return OpenAI(
-        api_key=api_key,
-        key=key,
-        model=model,
+        {
+            "api_key": api_key,
+            "key": key,
+            "model": model,
+        }
     )
 
 

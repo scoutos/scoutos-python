@@ -1,10 +1,10 @@
-from typing import Unpack
+from typing import Required
 
 import pytest
 
 from scoutos.blocks.base import (
     Block,
-    BlockCommonArgs,
+    BlockBaseConfig,
     BlockInitializationError,
     BlockOutput,
 )
@@ -53,12 +53,17 @@ def test_it_raises_when_unregisterd_block_type_provided():
 
 
 def test_it_loads_from_valid_data():
+    class SomeBlockConfig(BlockBaseConfig, total=False):
+        foo: Required[str]
+        baz: str
+
     class SomeBlock(Block):
         TYPE = "test_some_block"
 
-        def __init__(self, foo: str, **kwargs: Unpack[BlockCommonArgs]):
-            super().__init__(**kwargs)
-            self._foo = foo
+        def __init__(self, config: SomeBlockConfig):
+            super().__init__(config)
+            self._foo = config["foo"]
+            self._baz = config.get("baz", "default_value")
 
         async def run(self, run_input: dict) -> dict:
             return run_input
@@ -75,8 +80,8 @@ def test_it_raises_when_missing_key():
     class AnotherBlock(Block):
         TYPE = "test_another_block"
 
-        def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
-            super().__init__(**kwargs)
+        def __init__(self, config: BlockBaseConfig):
+            super().__init__(config)
 
         async def run(self, run_input: dict) -> dict:
             return run_input
@@ -92,13 +97,13 @@ async def test_it_raises_if_not_initialized_with_super():
     class ImproperlyInitializedBlock(Block):
         TYPE = "test_improperly_initialized_block"
 
-        def __init__(self, *, key: str):
-            self._key = key
+        def __init__(self, config: BlockBaseConfig):
+            self._key = config["key"]
 
         async def run(self, run_input: dict) -> dict:
             return run_input
 
-    block = ImproperlyInitializedBlock(key="the_key")
+    block = ImproperlyInitializedBlock({"key": "some_key"})
 
     with pytest.raises(BlockInitializationError):
         await block.outter_run([])
@@ -106,20 +111,25 @@ async def test_it_raises_if_not_initialized_with_super():
 
 @pytest.mark.asyncio()
 async def test_it_runs():
+    class SomeBlockSubclassConfig(BlockBaseConfig, total=False):
+        suffix: Required[str]
+
     class SomeBlockSubclass(Block):
         TYPE = "test_some_block_subclass"
 
-        def __init__(self, *, suffix: str, **kwargs: Unpack[BlockCommonArgs]):
-            super().__init__(**kwargs)
-            self._suffix = suffix
+        def __init__(self, config: SomeBlockSubclassConfig):
+            super().__init__(config)
+            self._suffix = config["suffix"]
 
         async def run(self, run_input: dict) -> dict:
             return {"result": run_input["foo"] + self._suffix}
 
     block = SomeBlockSubclass(
-        key="some_block_subclass",
-        suffix="--bazoo",
-        depends=[Depends.StrType("input.foo")],
+        {
+            "key": "some_block_subclass",
+            "suffix": "--bazoo",
+            "depends": [Depends.StrType({"path": "input.foo"})],
+        }
     )
     current_output = [create_block_output("input", {"foo": "baz"})]
     result = await block.outter_run(current_output)

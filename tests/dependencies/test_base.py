@@ -1,11 +1,11 @@
-from typing import Any, Unpack
+from typing import Any
 
 import pytest
 
 from scoutos.blocks.base import BlockOutput
 from scoutos.dependencies.base import (
     Dependency,
-    DependencyOptions,
+    DependencyBaseConfig,
     DependencyPathError,
     UnsatisfiedDependencyError,
 )
@@ -22,14 +22,14 @@ def create_block_run_output(block_id: str, output: dict) -> BlockOutput:
     )
 
 
-def create_dependency(path: str, **kwargs: Unpack[DependencyOptions]) -> Dependency:
+def create_dependency(config: DependencyBaseConfig) -> Dependency:
     class StubbedStrDependency(Dependency[str]):
         TYPE = "stubbed_str_dep"
 
         def parse(self, value: Any) -> str:
             return str(value)
 
-    return StubbedStrDependency(path, **kwargs)
+    return StubbedStrDependency(config)
 
 
 def test_it_loads_from_valid_data():
@@ -91,7 +91,7 @@ def test_it_raises_when_unregistered_dep_specified():
     ],
 )
 def test_block_id(path, expected_result):
-    dep = create_dependency(path)
+    dep = create_dependency({"path": path})
     assert dep.block_id == expected_result
 
 
@@ -103,7 +103,7 @@ def test_block_id(path, expected_result):
     ],
 )
 def test_default_value(opts, expected_result):
-    dep = create_dependency("block_id.some.path", **opts)
+    dep = create_dependency({"path": "block_id.some.path", **opts})
     assert dep.default_value.value == expected_result
 
 
@@ -115,7 +115,7 @@ def test_default_value(opts, expected_result):
     ],
 )
 def test_key(path, opts, expected_result):
-    dep = create_dependency(path, **opts)
+    dep = create_dependency({"path": path, **opts})
     assert dep.key == expected_result
 
 
@@ -127,12 +127,12 @@ def test_key(path, opts, expected_result):
     ],
 )
 def test_path(path, expected_result):
-    dep = create_dependency(path)
+    dep = create_dependency({"path": path})
     assert dep.path == expected_result
 
 
 def test_path_raises_if_not_multiple_segments():
-    dep = create_dependency("single_segment")
+    dep = create_dependency({"path": "single_segment"})
 
     with pytest.raises(DependencyPathError):
         dep.path  # noqa: B018
@@ -158,7 +158,7 @@ def test_path_raises_if_not_multiple_segments():
     ],
 )
 def test_is_resolved(current_output, path, init_opts, expected_result):
-    dep = create_dependency(path, **init_opts)
+    dep = create_dependency({"path": path, **init_opts})
     result = dep.is_resolved(current_output)
     assert result == expected_result
 
@@ -182,20 +182,20 @@ def test_is_resolved(current_output, path, init_opts, expected_result):
     ],
 )
 def test_resolve(current_output, path, init_opts, expected_result):
-    dep = create_dependency(path, **init_opts)
+    dep = create_dependency({"path": path, **init_opts})
     result = dep.resolve(current_output)
     assert result == expected_result
 
 
 def test_raises_on_resolve_with_no_corresponding_output():
-    dep = create_dependency("non_existent_block_id.some.path")
+    dep = create_dependency({"path": "non_existent_block_id.some.path"})
 
     with pytest.raises(UnsatisfiedDependencyError):
         dep.resolve([])
 
 
 def test_raises_on_resolve_with_missing_value():
-    dep = create_dependency("input.fizz")
+    dep = create_dependency({"path": "input.fizz"})
     current_output = [create_block_run_output("input", {"foo": "baz"})]
 
     with pytest.raises(UnsatisfiedDependencyError):

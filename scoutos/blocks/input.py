@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from typing import Unpack
-
-from .base import Block, BlockCommonArgs
+from .base import Block, BlockBaseConfig
 
 INPUT_BLOCK_ID = "input"
 
@@ -15,12 +13,9 @@ class Input(Block):
 
     TYPE = "scoutos_input"
 
-    def __init__(
-        self,
-        **kwargs: Unpack[BlockCommonArgs],
-    ):
-        kwargs["key"] = INPUT_BLOCK_ID
-        super().__init__(**kwargs)
+    def __init__(self, config: BlockBaseConfig):
+        config["key"] = INPUT_BLOCK_ID
+        super().__init__(config)
 
     async def run(self, run_input: dict) -> dict:
         return run_input

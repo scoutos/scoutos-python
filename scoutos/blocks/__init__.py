@@ -1,4 +1,4 @@
-from .base import Block, BlockCommonArgs, BlockInitializationError
+from .base import Block, BlockBaseConfig, BlockInitializationError
 from .function import Function
 from .http import Http
 from .identity import Identity
@@ -8,7 +8,7 @@ from .template import Template
 
 __all__ = [
     "Block",
-    "BlockCommonArgs",
+    "BlockBaseConfig",
     "BlockInitializationError",
     "Function",
     "Http",

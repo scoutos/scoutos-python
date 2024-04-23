@@ -35,8 +35,8 @@ def test_instantiation():
         (
             lambda n, count: count >= n,
             [
-                Depends.IntType("input.n"),
-                Depends.IntType("counter.count", default_value=0),
+                Depends.IntType({"path": "input.n"}),
+                Depends.IntType({"path": "counter.count", "default_value": 0}),
             ],
             [
                 create_block_output("input", {"n": 5}),
@@ -47,8 +47,8 @@ def test_instantiation():
         (
             lambda n, count: count >= n,
             [
-                Depends.IntType("input.n"),
-                Depends.IntType("counter.count", default_value=0),
+                Depends.IntType({"path": "input.n"}),
+                Depends.IntType({"path": "counter.count", "default_value": 0}),
             ],
             [
                 create_block_output("input", {"n": 5}),
@@ -58,8 +58,8 @@ def test_instantiation():
         (
             lambda n, count: count >= n,
             [
-                Depends.IntType("input.n"),
-                Depends.IntType("counter.count", default_value=0),
+                Depends.IntType({"path": "input.n"}),
+                Depends.IntType({"path": "counter.count", "default_value": 0}),
             ],
             [
                 create_block_output("input", {"n": 5}),

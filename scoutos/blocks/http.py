@@ -1,32 +1,31 @@
 from __future__ import annotations
 
-from typing import Literal, Unpack
+from typing import Literal, Required
 
 import httpx
 import jinja2
 
-from scoutos.blocks.base import Block, BlockCommonArgs
+from scoutos.blocks.base import Block, BlockBaseConfig
 
 ALLOWED_METHOD_VERBS = Literal["GET", "POST"]
+
+
+class HttpConfig(BlockBaseConfig, total=False):
+    headers: dict[str, str] | None
+    method: Literal["get", "post"]
+    response_type: Literal["json", "text"]
+    url: Required[str]
 
 
 class Http(Block):
     TYPE = "scoutos_http"
 
-    def __init__(
-        self,
-        url: str,
-        *,
-        headers: dict[str, str] | None = None,
-        method: Literal["get", "post"] = "get",
-        response_type: Literal["json", "text"] = "json",
-        **kwargs: Unpack[BlockCommonArgs],
-    ):
-        super().__init__(**kwargs)
-        self._headers = headers or {}
-        self._method = method
-        self._response_type = response_type
-        self._url = jinja2.Template(url)
+    def __init__(self, config: HttpConfig):
+        super().__init__(config)
+        self._headers = config.get("headers", {})
+        self._method = config.get("method", "get")
+        self._response_type = config.get("response_type", "json")
+        self._url = jinja2.Template(config["url"])
 
     async def run(self, run_input: dict) -> dict:
         async with httpx.AsyncClient() as client:

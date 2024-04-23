@@ -7,11 +7,11 @@ from typing import (
     ClassVar,
     Generic,
     Required,
-    TypedDict,
     TypeVar,
-    Unpack,
 )
 from uuid import uuid4
+
+from typing_extensions import TypedDict
 
 from scoutos.dependencies.base import Dependency
 from scoutos.utils import get_current_timestamp
@@ -20,7 +20,7 @@ RunInput = TypeVar("RunInput")
 RunOutput = TypeVar("RunOutput")
 
 
-class BlockCommonArgs(TypedDict, total=False):
+class BlockBaseConfig(TypedDict, total=False):
     key: Required[str]
     """A key that uniquely identifies _this_ block."""
 
@@ -79,17 +79,17 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
     _initialized_with_super = False
     _is_base_class = True
 
-    def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
+    def __init__(self, config: BlockBaseConfig):
         self._initialized_with_super = True
-        self._key = kwargs["key"]
-        self._depends = kwargs.get("depends", [])
-        self._run_until = kwargs.get("run_until", lambda _data: True)
-        self._max_runs = kwargs.get("max_runs", self.DEFAULT_MAX_RUNS)
+        self._key = config["key"]
+        self._depends = config.get("depends", [])
+        self._run_until = config.get("run_until", lambda _data: True)
+        self._max_runs = config.get("max_runs", self.DEFAULT_MAX_RUNS)
         self._output: list[BlockOutput[RunOutput]] = []
 
     @classmethod
-    def load(cls, data: dict) -> Block:
-        block_type = data.get(BLOCK_TYPE_KEY)
+    def load(cls, config: dict) -> Block:
+        block_type = config.pop(BLOCK_TYPE_KEY, None)
         if not block_type:
             message = f"Expected {BLOCK_TYPE_KEY} to be provided"
             raise ValueError(message)
@@ -99,10 +99,11 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
             message = f"{block_type} is not registered"
             raise ValueError(message)
 
-        data.pop(BLOCK_TYPE_KEY)
-        depends = [Dependency.load(dep_data) for dep_data in data.pop("depends", [])]
+        config["depends"] = [
+            Dependency.load(dep_data) for dep_data in config.get("depends", [])
+        ]
 
-        return block_cls(**data, depends=depends)
+        return block_cls(config)
 
     @property
     def depends(self) -> list[Dependency]:

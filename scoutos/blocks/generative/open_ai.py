@@ -1,11 +1,16 @@
-from typing import Unpack
+from typing import Required
 
 from openai import OpenAI as OGOpenAI
 
-from scoutos.blocks import BlockCommonArgs
+from scoutos.blocks import BlockBaseConfig
 
 from .base import Generative
 from .types import GenerativeOutput
+
+
+class OpenAIConfig(BlockBaseConfig):
+    api_key: Required[str]
+    model: Required[str]
 
 
 class OpenAI(Generative):
@@ -13,10 +18,10 @@ class OpenAI(Generative):
 
     TYPE = "generative_openai"
 
-    def __init__(self, *, api_key: str, model: str, **kwargs: Unpack[BlockCommonArgs]):
-        super().__init__(**kwargs)
-        self._api_key = api_key
-        self._model = model
+    def __init__(self, config: OpenAIConfig):
+        super().__init__(config)
+        self._api_key = config["api_key"]
+        self._model = config["model"]
 
     async def run(self, run_input: dict) -> GenerativeOutput:
         client = OGOpenAI(api_key=self._api_key)

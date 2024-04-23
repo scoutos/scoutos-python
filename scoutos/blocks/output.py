@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Unpack
+from typing import TYPE_CHECKING
 
 from .base import Block
 
 if TYPE_CHECKING:  # pragma: no cover
-    from .base import BlockCommonArgs
+    from .base import BlockBaseConfig
 
 OUTPUT_BLOCK_ID = "output"
 
@@ -20,9 +20,9 @@ class Output(Block):
 
     TYPE = "scoutos_output"
 
-    def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
-        kwargs["key"] = OUTPUT_BLOCK_ID
-        super().__init__(**kwargs)
+    def __init__(self, config: BlockBaseConfig):
+        config["key"] = OUTPUT_BLOCK_ID
+        super().__init__(config)
 
     async def run(self, run_input: dict) -> dict:
         return run_input

@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Sequence, TypedDict
+from typing import TYPE_CHECKING, Sequence
+
+from typing_extensions import TypedDict
 
 if TYPE_CHECKING:  # pragma: no cover
     from openai.types.chat import ChatCompletionMessageParam  # pragma: no cover
