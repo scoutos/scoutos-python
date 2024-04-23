@@ -6,7 +6,7 @@ from scoutos.dependencies import Dependency, UnsatisfiedDependencyError
 
 def create_dependency():
     path = "block_id.nested.path"
-    return Depends.FloatType(path)
+    return Depends.FloatType({"path": path})
 
 
 def test_instantiation():

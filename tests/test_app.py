@@ -9,8 +9,8 @@ from scoutos.blocks import Block, Identity, Input, Output, Template
 def test_instanitation():
     app = App(
         blocks=[
-            Input(key="input"),
-            Output(key="output"),
+            Input({"key": "input"}),
+            Output({"key": "output"}),
         ]
     )
     assert isinstance(app, App)
@@ -82,11 +82,19 @@ async def test_raises_if_block_has_exceeded_run_count():
 
     app = App(
         blocks=[
-            Input(key="input"),
+            Input({"key": "input"}),
             WillExceedRuncount(
-                key="has_exceeded", depends=[Depends.StrType("input.foo")]
+                {
+                    "key": "has_exceeded",
+                    "depends": [Depends.StrType({"path": "input.foo"})],
+                }
             ),
-            Output(key="output", depends=[Depends.StrType("has_exceeded.foo")]),
+            Output(
+                {
+                    "key": "output",
+                    "depends": [Depends.StrType({"path": "has_exceeded.foo"})],
+                }
+            ),
         ]
     )
 
@@ -98,16 +106,23 @@ async def test_raises_if_block_has_exceeded_run_count():
 async def test_simple_sequential_run():
     app = App(
         blocks=[
-            Input(key="input"),
+            Input({"key": "input"}),
             Template(
-                key="template",
-                depends=[
-                    Depends.StrType("input.first_name"),
-                    Depends.StrType("input.last_name"),
-                ],
-                template="Hello {{first_name}} {{last_name}}. Nice to meet you!",
+                {
+                    "key": "template",
+                    "depends": [
+                        Depends.StrType({"path": "input.first_name"}),
+                        Depends.StrType({"path": "input.last_name"}),
+                    ],
+                    "template": "Hello {{first_name}} {{last_name}}. Nice to meet you!",
+                }
             ),
-            Output(key="output", depends=[Depends.StrType("template.result")]),
+            Output(
+                {
+                    "key": "output",
+                    "depends": [Depends.StrType({"path": "template.result"})],
+                }
+            ),
         ]
     )
     app_run_input = {"first_name": "Chili", "last_name": "Davis"}
@@ -129,22 +144,32 @@ async def test_looping_with_single_block():
 
     app = App(
         blocks=[
-            Input(key="input"),
+            Input({"key": "input"}),
             Template(
-                key=looper_key,
-                depends=[
-                    Depends.IntType("input.n"),
-                    Depends.IntType(
-                        f"{looper_key}.result",
-                        default_value=0,
-                    ),
-                ],
-                run_until=stop_condition,
-                template="{{result + 1}}",
+                {
+                    "key": looper_key,
+                    "depends": [
+                        Depends.IntType({"path": "input.n"}),
+                        Depends.IntType(
+                            {
+                                "path": f"{looper_key}.result",
+                                "default_value": 0,
+                            }
+                        ),
+                    ],
+                    "run_until": stop_condition,
+                    "template": "{{result + 1}}",
+                }
             ),
             Output(
-                key="output",
-                depends=[Depends.IntType(f"{looper_key}.result", key="count")],
+                {
+                    "key": "output",
+                    "depends": [
+                        Depends.IntType(
+                            {"path": f"{looper_key}.result", "key": "count"}
+                        )
+                    ],
+                }
             ),
         ]
     )
@@ -179,26 +204,40 @@ async def test_looping_with_multiple_blocks(n, expected_path):
     sequence of blocks, repeating the sequence until a condition is met."""
 
     blocks = [
-        Input(key="input"),
+        Input({"key": "input"}),
         Template(
-            key="increment",
-            depends=[Depends.IntType("coerce.counter", default_value=0)],
-            template="{{counter + 1}}",
+            {
+                "key": "increment",
+                "depends": [
+                    Depends.IntType({"path": "coerce.counter", "default_value": 0})
+                ],
+                "template": "{{counter + 1}}",
+            }
         ),
         Identity(
-            key="coerce",
-            depends=[
-                Depends.IntType("input.n"),
-                Depends.IntType("increment.result", key="counter", requires_rerun=True),
-            ],
-            run_until=lambda data: data["counter"] >= data["n"],
+            {
+                "key": "coerce",
+                "depends": [
+                    Depends.IntType({"path": "input.n"}),
+                    Depends.IntType(
+                        {
+                            "path": "increment.result",
+                            "key": "counter",
+                            "requires_rerun": True,
+                        }
+                    ),
+                ],
+                "run_until": lambda data: data["counter"] >= data["n"],
+            }
         ),
         Output(
-            key="output",
-            depends=[
-                Depends.IntType("input.n"),
-                Depends.IntType("coerce.counter"),
-            ],
+            {
+                "key": "output",
+                "depends": [
+                    Depends.IntType({"path": "input.n"}),
+                    Depends.IntType({"path": "coerce.counter"}),
+                ],
+            }
         ),
     ]
 

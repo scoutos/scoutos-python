@@ -2,7 +2,9 @@ from __future__ import annotations
 
 from abc import ABC, ABCMeta, abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, ClassVar, Generic, TypedDict, TypeVar, Unpack
+from typing import TYPE_CHECKING, Any, ClassVar, Generic, Required, TypeVar
+
+from typing_extensions import TypedDict
 
 from scoutos.constants import THE_START_OF_TIME_AND_SPACE
 from scoutos.utils import get_nested_value_from_dict
@@ -41,7 +43,8 @@ class DefaultValue(Generic[T]):
     value: T | None
 
 
-class DependencyOptions(Generic[T], TypedDict, total=False):
+class DependencyBaseConfig(Generic[T], TypedDict, total=False):
+    path: Required[str]
     default_value: T
     key: str
     requires_rerun: bool
@@ -51,8 +54,8 @@ class Dependency(ABC, Generic[T], metaclass=DependencyMeta):
     _is_base_class = True
 
     @classmethod
-    def load(cls, data: dict) -> Dependency:
-        dependency_type = data.get(DEPENDENCY_TYPE_KEY)
+    def load(cls, config: dict) -> Dependency:
+        dependency_type = config.pop(DEPENDENCY_TYPE_KEY, None)
         if not dependency_type:
             message = f"Expected {DEPENDENCY_TYPE_KEY} to be provided"
             raise ValueError(message)
@@ -62,25 +65,23 @@ class Dependency(ABC, Generic[T], metaclass=DependencyMeta):
             message = f"{dependency_type} is not registered"
             raise ValueError(message)
 
-        data.pop(DEPENDENCY_TYPE_KEY)
-        return dependency_cls(**data)
+        return dependency_cls(config)
 
     def __init__(
         self,
-        path: str,
-        **options: Unpack[DependencyOptions[T]],
+        config: DependencyBaseConfig,
     ):
         """Express a dependency on the output of another block.
 
         path: str - the path to the dependency, separated by `.`
         """
-        self._default_value = DefaultValue(
-            is_set=options.get("default_value") is not None,
-            value=options.get("default_value"),
+        self._default_value: DefaultValue = DefaultValue(
+            is_set=config.get("default_value") is not None,
+            value=config.get("default_value"),
         )
-        self._key = options.get("key", path.split(".")[-1])
-        self._path = path
-        self._requires_rerun = options.get("requires_rerun", False)
+        self._key = config.get("key", config["path"].split(".")[-1])
+        self._path = config["path"]
+        self._requires_rerun = config.get("requires_rerun", False)
 
     @property
     def block_id(self) -> str:

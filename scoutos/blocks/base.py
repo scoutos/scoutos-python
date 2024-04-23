@@ -3,15 +3,16 @@ from __future__ import annotations
 from abc import ABC, ABCMeta, abstractmethod
 from dataclasses import dataclass
 from typing import (
+    Any,
     Callable,
     ClassVar,
     Generic,
     Required,
-    TypedDict,
     TypeVar,
-    Unpack,
 )
 from uuid import uuid4
+
+from typing_extensions import TypedDict
 
 from scoutos.dependencies.base import Dependency
 from scoutos.utils import get_current_timestamp
@@ -19,8 +20,10 @@ from scoutos.utils import get_current_timestamp
 RunInput = TypeVar("RunInput")
 RunOutput = TypeVar("RunOutput")
 
+RunUntil = Callable[[dict], bool]
 
-class BlockCommonArgs(TypedDict, total=False):
+
+class BlockBaseConfig(TypedDict, total=False):
     key: Required[str]
     """A key that uniquely identifies _this_ block."""
 
@@ -33,7 +36,13 @@ class BlockCommonArgs(TypedDict, total=False):
     of times the block can be run, to prevent runaway processes (default = 10).
     """
 
-    run_until: Callable[[dict], bool]
+    input_schema: dict[str, Any]
+    """JSON Schema for input"""
+
+    output_schema: dict[str, Any]
+    """JSON Schema for output"""
+
+    run_until: RunUntil
     """If provided, this repersents a condition that while false, will cause the
     block to re-execute."""
 
@@ -64,7 +73,7 @@ class BlockMeta(ABCMeta):
             block_type = dct.get(BLOCK_TYPE_ATTR)
             if block_type is None or not isinstance(block_type, str):
                 message = f"Expected {name} to define {BLOCK_TYPE_ATTR} in {dct}"
-                raise ValueError(message)
+                raise TypeError(message)
 
             cls.REGISTERED_BLOCKS[block_type] = block_cls
 
@@ -79,34 +88,36 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
     _initialized_with_super = False
     _is_base_class = True
 
-    def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
+    def __init__(self, config: BlockBaseConfig):
         self._initialized_with_super = True
-        self._key = kwargs["key"]
-        self._depends = kwargs.get("depends", [])
-        self._run_until = kwargs.get("run_until", lambda _data: True)
-        self._max_runs = kwargs.get("max_runs", self.DEFAULT_MAX_RUNS)
+        if not config.get("key"):
+            message = "Requires `key` to be provided"
+            raise TypeError(message)
+
+        self._config = config
         self._output: list[BlockOutput[RunOutput]] = []
 
     @classmethod
-    def load(cls, data: dict) -> Block:
-        block_type = data.get(BLOCK_TYPE_KEY)
+    def load(cls, config: dict) -> Block:
+        block_type = config.pop(BLOCK_TYPE_KEY, None)
         if not block_type:
             message = f"Expected {BLOCK_TYPE_KEY} to be provided"
-            raise ValueError(message)
+            raise TypeError(message)
 
         block_cls = BlockMeta.REGISTERED_BLOCKS.get(block_type)
         if not block_cls:
             message = f"{block_type} is not registered"
             raise ValueError(message)
 
-        data.pop(BLOCK_TYPE_KEY)
-        depends = [Dependency.load(dep_data) for dep_data in data.pop("depends", [])]
+        config["depends"] = [
+            Dependency.load(dep_data) for dep_data in config.get("depends", [])
+        ]
 
-        return block_cls(**data, depends=depends)
+        return block_cls(config)
 
     @property
     def depends(self) -> list[Dependency]:
-        return self._depends
+        return self._config.get("depends", [])
 
     @property
     def has_exceeded_run_count(self) -> bool:
@@ -115,7 +126,7 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
     @property
     def key(self) -> str:
         """Key that uniquely identifies _this_ block."""
-        return self._key
+        return self._config["key"]
 
     @property
     def last_run_completed_at(self) -> str | None:
@@ -128,7 +139,7 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
 
     @property
     def max_runs(self) -> int:
-        return self._max_runs
+        return self._config.get("max_runs", self.DEFAULT_MAX_RUNS)
 
     @property
     def output(self) -> list[BlockOutput[RunOutput]]:
@@ -138,21 +149,21 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
     def run_count(self) -> int:
         return len(self._output)
 
+    @property
+    def run_until(self) -> RunUntil:
+        return self._config.get("run_until", lambda _data: True)
+
     def has_met_termination_condition(self, current_output: list[BlockOutput]) -> bool:
         return (
             not self.requires_rerun(current_output) or self.run_count >= self.max_runs
         )
-
-    @abstractmethod
-    async def run(self, run_input: dict) -> RunOutput:
-        """Run the block. This is the meat and potatos. Yum yum."""
 
     def resolve_deps(self, block_output: list[BlockOutput]) -> dict:
         return {dep.key: dep.resolve(block_output) for dep in self.depends}
 
     def requires_rerun(self, current_output: list[BlockOutput]) -> bool:
         data = self.resolve_deps(current_output)
-        return not self._run_until(data)
+        return not self.run_until(data)
 
     async def outter_run(
         self,
@@ -186,6 +197,21 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
         self._output.append(run_output)
 
         return run_output
+
+    @property
+    def input_schema(self) -> dict[str, Any]:
+        """Returns valid JSON Schema representing the input required for run method"""
+        return self._config.get("input_schema", {})
+
+    @property
+    def output_schema(self) -> dict[str, Any]:
+        """Returns valid JSON Schema representing the output generated by the
+        run method"""
+        return self._config.get("output_schema", {})
+
+    @abstractmethod
+    async def run(self, run_input: dict) -> RunOutput:
+        """Run the block. This is the meat and potatos. Yum yum."""
 
 
 class BlockInitializationError(Exception):

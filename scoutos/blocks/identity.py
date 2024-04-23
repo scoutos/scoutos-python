@@ -1,8 +1,6 @@
 from __future__ import annotations
 
-from typing import Unpack
-
-from .base import Block, BlockCommonArgs
+from .base import Block, BlockBaseConfig
 
 
 class Identity(Block):
@@ -13,8 +11,8 @@ class Identity(Block):
 
     TYPE = "scoutos_identity"
 
-    def __init__(self, **kwargs: Unpack[BlockCommonArgs]):
-        super().__init__(**kwargs)
+    def __init__(self, config: BlockBaseConfig):
+        super().__init__(config)
 
     async def run(self, run_input: dict) -> dict:
         return run_input

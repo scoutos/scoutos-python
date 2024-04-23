@@ -8,7 +8,7 @@ from scoutos.blocks.http import Http
 
 
 def test_initialization():
-    obj = Http(key="test_http_block", url="https://some.url.com")
+    obj = Http({"key": "test_http_block", "url": "https://some.url.com"})
 
     assert isinstance(obj, Block)
     assert isinstance(obj, Http)
@@ -21,7 +21,11 @@ def test_initialization():
 )
 async def test_json_response(mocker):  # noqa: ARG001
     block = Http(
-        key="test_http_block", url="https://www.example.com", response_type="json"
+        {
+            "key": "test_http_block",
+            "url": "https://www.example.com",
+            "response_type": "json",
+        }
     )
 
     result = await block.run({})
@@ -36,7 +40,11 @@ async def test_json_response(mocker):  # noqa: ARG001
 )
 async def test_text_response(mocker):  # noqa: ARG001
     block = Http(
-        key="test_http_block", url="https://www.example.com", response_type="text"
+        {
+            "key": "test_http_block",
+            "url": "https://www.example.com",
+            "response_type": "text",
+        }
     )
 
     result = await block.run({})

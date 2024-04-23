@@ -27,31 +27,42 @@ class AppInput(BaseModel):
 
 
 blocks = [
-    Input(key="input"),
+    Input({"key": "input"}),
     Function(
-        key="prepare_messages",
-        depends=[Depends.StrType("input.prompt")],
-        fn=lambda data: {
-            "messages": [
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": data["prompt"]},
-            ]
-        },
+        {
+            "key": "prepare_messages",
+            "depends": [Depends.StrType({"path": "input.prompt"})],
+            "fn": lambda data: {
+                "messages": [
+                    {"role": "system", "content": SYSTEM_PROMPT},
+                    {"role": "user", "content": data["prompt"]},
+                ]
+            },
+        }
     ),
     OpenAI(
-        key="llm",
-        depends=[Depends.AnyType("prepare_messages.messages")],
-        api_key=OPENAI_API_KEY,
-        model="gpt-4-turbo",
+        {
+            "key": "llm",
+            "depends": [Depends.AnyType({"path": "prepare_messages.messages"})],
+            "api_key": OPENAI_API_KEY,
+            "model": "gpt-4-turbo",
+        }
     ),
     Function(
-        key="parse_llm_response",
-        depends=[Depends.AnyType("llm.choices")],
-        fn=lambda data: {
-            "completion": data["choices"][0]["message"]["content"],
-        },
+        {
+            "key": "parse_llm_response",
+            "depends": [Depends.AnyType({"path": "llm.choices"})],
+            "fn": lambda data: {
+                "completion": data["choices"][0]["message"]["content"],
+            },
+        }
     ),
-    Output(key="output", depends=[Depends.StrType("parse_llm_response.completion")]),
+    Output(
+        {
+            "key": "output",
+            "depends": [Depends.StrType({"path": "parse_llm_response.completion"})],
+        }
+    ),
 ]
 
 app = App(blocks=blocks)
