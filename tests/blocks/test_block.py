@@ -32,12 +32,12 @@ def create_block_output(block_id: str, output: dict) -> BlockOutput:
 def test_it_raises_when_block_type_is_not_provided():
     data = {}
 
-    with pytest.raises(ValueError, match="Expected type to be provided"):
+    with pytest.raises(TypeError, match="Expected type to be provided"):
         Block.load(data)
 
 
 def test_it_raises_when_invalid_block_type_is_provided():
-    with pytest.raises(ValueError, match="TYPE"):
+    with pytest.raises(TypeError, match="TYPE"):
 
         class BlockMissingBlockType(Block):
             pass
@@ -88,7 +88,7 @@ def test_it_raises_when_missing_key():
 
     data = {"type": AnotherBlock.TYPE}
 
-    with pytest.raises(KeyError, match="key"):
+    with pytest.raises(TypeError, match="key"):
         Block.load(data)
 
 
@@ -136,3 +136,31 @@ async def test_it_runs():
 
     assert result.ok is True
     assert result.output == {"result": "baz--bazoo"}
+
+
+def test_input_schema():
+    """If not provided, input schema should default to empty obj"""
+
+    class SomeBlock(Block):
+        TYPE = "test_some_block"
+
+        async def run(self, _run_input: dict) -> dict:
+            return {}
+
+    block = SomeBlock({"key": "test:some_block"})
+
+    assert block.input_schema == {}
+
+
+def test_output_schema():
+    """If not provided, output schema should default to empty obj"""
+
+    class SomeBlock(Block):
+        TYPE = "test_some_block"
+
+        async def run(self, _run_input: dict) -> dict:
+            return {}
+
+    block = SomeBlock({"key": "test:some_block"})
+
+    assert block.output_schema == {}

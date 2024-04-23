@@ -1,12 +1,12 @@
 from __future__ import annotations
 
-from typing import Callable, Required
+from typing import Callable
 
 from .base import Block, BlockBaseConfig
 
 
-class FunctionConfig(BlockBaseConfig, total=False):
-    fn: Required[Callable[[dict], dict]]
+class FunctionConfig(BlockBaseConfig):
+    fn: Callable[[dict], dict]
     """The function that will be called when the block is run"""
 
 
@@ -15,7 +15,7 @@ class Function(Block):
 
     def __init__(self, config: FunctionConfig):
         super().__init__(config)
-        self._fn = config["fn"]
+        self._config: FunctionConfig = config
 
     async def run(self, run_input: dict) -> dict:
-        return self._fn(run_input)
+        return self._config["fn"](run_input)
