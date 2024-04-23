@@ -7,12 +7,11 @@ from typing import (
     Callable,
     ClassVar,
     Generic,
-    Required,
     TypeVar,
 )
 from uuid import uuid4
 
-from typing_extensions import TypedDict
+from typing_extensions import Required, TypedDict
 
 from scoutos.dependencies.base import Dependency
 from scoutos.utils import get_current_timestamp

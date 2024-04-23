@@ -1,6 +1,5 @@
-from typing import Required
-
 from openai import OpenAI as OGOpenAI
+from typing_extensions import Required
 
 from scoutos.blocks import BlockBaseConfig
 

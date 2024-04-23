@@ -1,6 +1,5 @@
-from typing import Required
-
 from jinja2 import Template as JinjaTemplate
+from typing_extensions import Required
 
 from scoutos.blocks import Block, BlockBaseConfig
 
