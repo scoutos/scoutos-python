@@ -1,9 +1,10 @@
 from __future__ import annotations
 
-from typing import Literal, Required
+from typing import Literal
 
 import httpx
 import jinja2
+from typing_extensions import Required
 
 from scoutos.blocks.base import Block, BlockBaseConfig
 

@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from abc import ABC, ABCMeta, abstractmethod
 from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any, ClassVar, Generic, Required, TypeVar
+from typing import TYPE_CHECKING, Any, ClassVar, Generic, TypeVar
 
-from typing_extensions import TypedDict
+from typing_extensions import Required, TypedDict
 
 from scoutos.constants import THE_START_OF_TIME_AND_SPACE
 from scoutos.utils import get_nested_value_from_dict

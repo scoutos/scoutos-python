@@ -1,6 +1,5 @@
-from typing import Required
-
 import pytest
+from typing_extensions import Required
 
 from scoutos.blocks.base import (
     Block,
