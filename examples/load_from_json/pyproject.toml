@@ -9,7 +9,7 @@ repository = "https://github.com/otherwillhq/scoutos-python/examples/load_from_j
 
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.10"
 scoutos = { path="../..", develop=false}
 
 
