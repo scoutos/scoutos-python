@@ -1,9 +1,5 @@
 name: "Run Examples"
-on:
-  push:
-    branches:
-      - main
-      - PROD-567
+on: push
 
 jobs:
   main:
