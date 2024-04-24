@@ -1,13 +1,12 @@
 from __future__ import annotations
 
 from abc import ABC, ABCMeta, abstractmethod
-from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, ClassVar, Generic, TypeVar
 
 from typing_extensions import Required, TypedDict
 
 from scoutos.constants import THE_START_OF_TIME_AND_SPACE
-from scoutos.utils import get_nested_value_from_dict
+from scoutos.utils import DefaultValue, get_nested_value_from_dict
 
 if TYPE_CHECKING:  # pragma: no cover
     from scoutos.blocks.base import BlockOutput
@@ -37,16 +36,10 @@ class DependencyMeta(ABCMeta):
 T = TypeVar("T")
 
 
-@dataclass
-class DefaultValue(Generic[T]):
-    is_set: bool
-    value: T | None
-
-
 class DependencyBaseConfig(Generic[T], TypedDict, total=False):
     path: Required[str]
-    default_value: T
     key: str
+    default_value: T
     requires_rerun: bool
 
 
