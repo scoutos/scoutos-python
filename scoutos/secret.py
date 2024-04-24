@@ -15,7 +15,12 @@ Env = Literal["production", "preview", "development"]
 
 class Secret:
     def __init__(
-        self, key: str, *, default_value: str | None = None, env: Env = "production"
+        self,
+        key: str,
+        *,
+        default_value: str | None = None,
+        env: Env = "production",
+        scoutos_secret_key: str | None = None,
     ):
         self._env = env
         self._key = key
@@ -23,6 +28,7 @@ class Secret:
             is_set=default_value is not None,
             value=default_value,
         )
+        self._scoutos_secret_key = scoutos_secret_key
 
     @property
     def env(self) -> str:
@@ -47,10 +53,14 @@ class Secret:
             return None
 
     async def _resolve_from_scout_cloud(self) -> str | None:
+        if self._scoutos_secret_key is None:
+            message = "`scoutos_secret_key` is required when fetching secret from cloud"
+            raise ValueError(message)
+
         url = f"{SCOUTOS_SECRETS_ENDPOINT}/{self._key}"
         headers = {
             "Accepts": "application/json",
-            "Authorization": "Bearer <WE-NEED-SECRET-KEY-HERE>",
+            "Authorization": f"Bearer {self._scoutos_secret_key}",
         }
 
         async with httpx.AsyncClient() as httpx_client:
