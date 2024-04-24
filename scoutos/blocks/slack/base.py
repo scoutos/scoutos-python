@@ -15,4 +15,13 @@ class Slack(Block[RunInput, RunOutput]):
     _is_base_class = True
 
     def __init__(self, config: SlackConfig):
-        self._config = config
+        super().__init__(config)
+        self._config: SlackConfig = config
+
+    @property
+    def _http_api_url(self) -> str:
+        return "https://slack.com/api"
+
+    @property
+    def _headers(self) -> dict:
+        return {"Authorization": f"Bearer {self._config['token']}"}
