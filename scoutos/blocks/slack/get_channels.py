@@ -5,8 +5,12 @@ from pydantic import ValidationError
 
 from scoutos.blocks import BlockExecutionError
 
-from .base import Slack
+from .base import Slack, SlackConfig
 from .types import Channel
+
+
+class GetChannelsConfig(SlackConfig):
+    pass
 
 
 class GetChannels(Slack):
@@ -27,6 +31,10 @@ class GetChannels(Slack):
                 if not data.get("ok"):
                     message = data.get("error", "An unknown exception occurred")
                     raise BlockExecutionError(message)
+
+                # import json
+                #
+                # print(json.dumps(data, indent=2))
 
                 return [
                     Channel(**channel_data) for channel_data in data.get("channels", [])
