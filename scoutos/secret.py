@@ -5,6 +5,7 @@ from typing import Literal
 
 import httpx
 
+from scoutos.env import get_env
 from scoutos.utils import DefaultValue
 
 SCOUTOS_SECRETS_ENDPOINT = "https://api.scoutos.com/v1/secrets"
@@ -32,6 +33,20 @@ class Secret:
         return self._key
 
     async def resolve(self) -> str:
+        """Resolve an environment variable. Raises if not found."""
+        value = self._resolve_from_local_env() or await self._resolve_from_scout_cloud()
+        if value is None:
+            raise SecretNotFoundError(self)
+
+        return value
+
+    def _resolve_from_local_env(self) -> str | None:
+        try:
+            return get_env(self.key)
+        except KeyError:
+            return None
+
+    async def _resolve_from_scout_cloud(self) -> str | None:
         url = f"{SCOUTOS_SECRETS_ENDPOINT}/{self._key}"
         headers = {
             "Accepts": "application/json",
@@ -44,8 +59,8 @@ class Secret:
         try:
             value = response.json()["value"]
             return str(value)
-        except (json.decoder.JSONDecodeError, KeyError) as orig_exception:
-            raise SecretNotFoundError(self) from orig_exception
+        except (json.decoder.JSONDecodeError, KeyError):
+            return None
 
 
 class SecretNotFoundError(Exception):
