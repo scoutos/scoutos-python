@@ -1,0 +1,178 @@
+{
+  "ok": true,
+  "channels": [
+    {
+      "id": "C04TK3213RQ",
+      "name": "random",
+      "is_channel": true,
+      "is_group": false,
+      "is_im": false,
+      "is_mpim": false,
+      "is_private": false,
+      "created": 1678654498,
+      "is_archived": false,
+      "is_general": false,
+      "unlinked": 0,
+      "name_normalized": "random",
+      "is_shared": false,
+      "is_org_shared": false,
+      "is_pending_ext_shared": false,
+      "pending_shared": [],
+      "context_team_id": "T04TMGM7A8L",
+      "updated": 1711677947306,
+      "parent_conversation": null,
+      "creator": "U04T4GQ5LKH",
+      "is_ext_shared": false,
+      "shared_team_ids": ["T04TMGM7A8L"],
+      "pending_connected_team_ids": [],
+      "is_member": false,
+      "topic": {
+        "value": "",
+        "creator": "",
+        "last_set": 0
+      },
+      "purpose": {
+        "value": "This channel is for... well, everything else. It\u2019s a place for team jokes, spur-of-the-moment ideas, and funny GIFs. Go wild!",
+        "creator": "U04T4GQ5LKH",
+        "last_set": 1678654498
+      },
+      "properties": {
+        "use_case": "random"
+      },
+      "previous_names": [],
+      "num_members": 5
+    },
+    {
+      "id": "C04TS9MTLUX",
+      "name": "updates",
+      "is_channel": true,
+      "is_group": false,
+      "is_im": false,
+      "is_mpim": false,
+      "is_private": false,
+      "created": 1678933009,
+      "is_archived": false,
+      "is_general": false,
+      "unlinked": 0,
+      "name_normalized": "updates",
+      "is_shared": false,
+      "is_org_shared": false,
+      "is_pending_ext_shared": false,
+      "pending_shared": [],
+      "context_team_id": "T04TMGM7A8L",
+      "updated": 1693425395040,
+      "parent_conversation": null,
+      "creator": "U04T4GSUAF9",
+      "is_ext_shared": false,
+      "shared_team_ids": ["T04TMGM7A8L"],
+      "pending_connected_team_ids": [],
+      "is_member": false,
+      "topic": {
+        "value": "",
+        "creator": "",
+        "last_set": 0
+      },
+      "purpose": {
+        "value": "",
+        "creator": "",
+        "last_set": 0
+      },
+      "properties": {
+        "canvas": {
+          "file_id": "F05QB3B8KPD",
+          "is_empty": true,
+          "quip_thread_id": "BMK9AAY7x9w"
+        }
+      },
+      "previous_names": ["linear_updates"],
+      "num_members": 5
+    },
+    {
+      "id": "C04TXMB9F6D",
+      "name": "general",
+      "is_channel": true,
+      "is_group": false,
+      "is_im": false,
+      "is_mpim": false,
+      "is_private": false,
+      "created": 1678654498,
+      "is_archived": false,
+      "is_general": true,
+      "unlinked": 0,
+      "name_normalized": "general",
+      "is_shared": false,
+      "is_org_shared": false,
+      "is_pending_ext_shared": false,
+      "pending_shared": [],
+      "context_team_id": "T04TMGM7A8L",
+      "updated": 1711677947323,
+      "parent_conversation": null,
+      "creator": "U04T4GQ5LKH",
+      "is_ext_shared": false,
+      "shared_team_ids": ["T04TMGM7A8L"],
+      "pending_connected_team_ids": [],
+      "is_member": true,
+      "topic": {
+        "value": "",
+        "creator": "",
+        "last_set": 0
+      },
+      "purpose": {
+        "value": "This is the one channel that will always include everyone. It\u2019s a great spot for announcements and team-wide conversations.",
+        "creator": "U04T4GQ5LKH",
+        "last_set": 1678654498
+      },
+      "properties": {
+        "canvas": {
+          "file_id": "F0664N7DFAS",
+          "is_empty": true,
+          "quip_thread_id": "OGf9AAvkyxu"
+        },
+        "use_case": "welcome"
+      },
+      "previous_names": [],
+      "num_members": 11
+    },
+    {
+      "id": "C04UQ9Z6H6Z",
+      "name": "growth",
+      "is_channel": true,
+      "is_group": false,
+      "is_im": false,
+      "is_mpim": false,
+      "is_private": false,
+      "created": 1679330761,
+      "is_archived": false,
+      "is_general": false,
+      "unlinked": 0,
+      "name_normalized": "growth",
+      "is_shared": false,
+      "is_org_shared": false,
+      "is_pending_ext_shared": false,
+      "pending_shared": [],
+      "context_team_id": "T04TMGM7A8L",
+      "updated": 1679330761610,
+      "parent_conversation": null,
+      "creator": "U04T4GQ5LKH",
+      "is_ext_shared": false,
+      "shared_team_ids": ["T04TMGM7A8L"],
+      "pending_connected_team_ids": [],
+      "is_member": true,
+      "topic": {
+        "value": "",
+        "creator": "",
+        "last_set": 0
+      },
+      "purpose": {
+        "value": "",
+        "creator": "",
+        "last_set": 0
+      },
+      "previous_names": [],
+      "num_members": 8
+    }
+  ],
+  "response_metadata": {
+    "next_cursor": ""
+  }
+}
