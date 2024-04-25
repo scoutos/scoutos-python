@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from pydantic import BaseModel, ConfigDict
 
 
@@ -30,3 +32,11 @@ class Channel(BaseModel):
     purpose: ChannelTopic
     topic: ChannelTopic
     unlinked: int
+
+
+class Message(BaseModel):
+    model_config = ConfigDict(extra="allow")
+
+
+class ResponseMetadata(BaseModel):
+    next_cursor: str | None
