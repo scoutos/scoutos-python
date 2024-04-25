@@ -5,6 +5,7 @@ from unittest.mock import patch
 import httpx
 import pytest
 
+from scoutos.blocks.base import BlockExecutionError
 from scoutos.blocks.slack import GetMessages
 
 FAKE_TOKEN = "xoxb-***"  # noqa: S105
@@ -67,3 +68,41 @@ async def test_happy_path(get_fixture_data):
         )
 
         assert result is not None
+
+
+@pytest.mark.asyncio()
+async def test_when_slack_api_returns_error():
+    block = create_block()
+    stubbed_response = create_stubbed_response(
+        json={"ok": False, "error": "some_error"}
+    )
+
+    with patch(
+        HTTPX_POST_PATCH_PATH,
+        return_value=stubbed_response,
+    ), pytest.raises(BlockExecutionError, match="some_error"):
+        await block.run({})
+
+
+@pytest.mark.asyncio()
+async def test_when_slack_api_returns_invalid_data():
+    block = create_block()
+    stubbed_response = create_stubbed_response(json={"ok": True})
+
+    with patch(
+        HTTPX_POST_PATCH_PATH,
+        return_value=stubbed_response,
+    ), pytest.raises(BlockExecutionError, match="data validation"):
+        await block.run({})
+
+
+@pytest.mark.asyncio()
+async def test_when_reqeust_fails():
+    block = create_block()
+    stubbed_response = create_stubbed_response(status=500, text="Internal Server Error")
+
+    with patch(
+        HTTPX_POST_PATCH_PATH,
+        return_value=stubbed_response,
+    ), pytest.raises(BlockExecutionError, match="http request failed"):
+        await block.run({})
