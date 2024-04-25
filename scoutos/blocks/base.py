@@ -213,6 +213,10 @@ class Block(ABC, Generic[RunInput, RunOutput], metaclass=BlockMeta):
         """Run the block. This is the meat and potatos. Yum yum."""
 
 
+class BlockExecutionError(Exception):
+    """Raised when a block raises during execution"""
+
+
 class BlockInitializationError(Exception):
     """This is raised when blocks have not been initialized correctly."""
 
