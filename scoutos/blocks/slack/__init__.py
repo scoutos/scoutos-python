@@ -4,6 +4,7 @@ from .get_messages import (
     GetMessagesInput,
     GetMessagesOutput,
 )
+from .get_thread import GetThread, GetThreadInput, GetThreadOutput
 from .get_user_info import GetUserInfo
 
 __all__ = [
@@ -12,5 +13,8 @@ __all__ = [
     "GetMessages",
     "GetMessagesInput",
     "GetMessagesOutput",
+    "GetThread",
+    "GetThreadInput",
+    "GetThreadOutput",
     "GetUserInfo",
 ]
