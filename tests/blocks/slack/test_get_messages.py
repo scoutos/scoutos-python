@@ -19,7 +19,6 @@ def create_block():
         {
             "key": "slack_get_messages",
             "token": FAKE_TOKEN,
-            "channel_id": FAKE_CHANNEL_ID,
         }
     )
 
@@ -53,7 +52,7 @@ async def test_happy_path(get_fixture_data):
         HTTPX_POST_PATCH_PATH, return_value=stubbed_response
     ) as mock_http_request:
         limit = 3
-        result = await block.run({"limit": limit})
+        result = await block.run({"channel": FAKE_CHANNEL_ID, "limit": limit})
 
         mock_http_request.assert_called_once_with(
             "https://slack.com/api/conversations.history",
@@ -81,7 +80,7 @@ async def test_when_slack_api_returns_error():
         HTTPX_POST_PATCH_PATH,
         return_value=stubbed_response,
     ), pytest.raises(BlockExecutionError, match="some_error"):
-        await block.run({})
+        await block.run({"channel": FAKE_CHANNEL_ID})
 
 
 @pytest.mark.asyncio()
@@ -93,7 +92,7 @@ async def test_when_slack_api_returns_invalid_data():
         HTTPX_POST_PATCH_PATH,
         return_value=stubbed_response,
     ), pytest.raises(BlockExecutionError, match="data validation"):
-        await block.run({})
+        await block.run({"channel": FAKE_CHANNEL_ID})
 
 
 @pytest.mark.asyncio()
@@ -105,4 +104,4 @@ async def test_when_reqeust_fails():
         HTTPX_POST_PATCH_PATH,
         return_value=stubbed_response,
     ), pytest.raises(BlockExecutionError, match="http request failed"):
-        await block.run({})
+        await block.run({"channel": FAKE_CHANNEL_ID})

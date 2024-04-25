@@ -1,8 +1,8 @@
 from .get_channels import GetChannels, GetChannelsConfig
 from .get_messages import (
     GetMessages,
-    GetMessagesConfig,
     GetMessagesInput,
+    GetMessagesOutput,
 )
 from .get_user_info import GetUserInfo
 
@@ -10,7 +10,7 @@ __all__ = [
     "GetChannels",
     "GetChannelsConfig",
     "GetMessages",
-    "GetMessagesConfig",
     "GetMessagesInput",
+    "GetMessagesOutput",
     "GetUserInfo",
 ]

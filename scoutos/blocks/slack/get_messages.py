@@ -7,16 +7,13 @@ from pydantic import BaseModel, ValidationError
 
 from scoutos.blocks import BlockExecutionError
 
-from .base import Slack, SlackConfig
+from .base import Slack
 from .types import Message, ResponseMetadata  # noqa: TCH001
 
 
-class GetMessagesConfig(SlackConfig):
-    channel_id: str
-    """Channel ID to fetch history for."""
-
-
 class GetMessagesInput(BaseModel):
+    channel: str
+    """The ID of the channel from which to pull messages."""
     cursor: str | None = None
     """Paginate through collections of data by setting the cursor parameter to
     a next_cursor attribute returned by a previous request's
@@ -43,24 +40,17 @@ class GetMessagesOutput(BaseModel):
     messages: list[Message]
     has_more: bool
     pin_count: int
-    response_metadata: ResponseMetadata | None
+    response_metadata: ResponseMetadata | None = None
 
 
 class GetMessages(Slack):
     TYPE = "scoutos:slack:get_messages"
 
-    def __init__(self, config: GetMessagesConfig):
-        super().__init__(config)
-        self._config: GetMessagesConfig = config
-
     async def run(self, run_input: dict) -> GetMessagesOutput:
         validated_input = GetMessagesInput.model_validate(run_input)
 
         headers = self._headers
-        data = {
-            **validated_input.model_dump(),
-            "channel": self._config["channel_id"],
-        }
+        data = validated_input.model_dump()
         url = f"{self._http_api_url}/conversations.history"
 
         async with httpx.AsyncClient() as client:
