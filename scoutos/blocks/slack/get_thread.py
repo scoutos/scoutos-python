@@ -3,12 +3,12 @@ from __future__ import annotations
 from typing import Literal
 
 import httpx
-from pydantic import BaseModel, ConfigDict, ValidationError
+from pydantic import BaseModel, ValidationError
 
 from scoutos.blocks import BlockExecutionError
 
 from .base import Slack
-# from .types import Message, ResponseMetadata  # noqa: TCH001
+from .types import Message, ResponseMetadata  # noqa: TCH001
 
 
 class GetThreadInput(BaseModel):
@@ -32,7 +32,7 @@ class GetThreadInput(BaseModel):
     """Only messages before this Unix timestamp will be included in results.
     Default is the current time."""
 
-    limit: int | None = 100
+    limit: int | None = None
     """The maximum number of items to return. Fewer than the requested number of
     items may be returned, even if the end of the conversation history
     hasn't been reached. Maximum of 999."""
@@ -44,11 +44,10 @@ class GetThreadInput(BaseModel):
 
 
 class GetThreadOutput(BaseModel):
-    model_config = ConfigDict(extra="allow")
-    # ok: Literal[True]
-    # messages: list[Message]
-    # has_more: bool
-    # response_metadata: ResponseMetadata | None
+    ok: Literal[True]
+    messages: list[Message]
+    has_more: bool
+    response_metadata: ResponseMetadata | None = None
 
 
 class GetThread(Slack):
@@ -72,8 +71,7 @@ class GetThread(Slack):
                     message = data.get("error", "an unknown exception occurred")
                     raise BlockExecutionError(message)
 
-                return data
-                # return GetThreadOutput.model_validate(data)
+                return GetThreadOutput.model_validate(data)
 
             except ValidationError as validation_error:
                 message = "output failed data validation"
