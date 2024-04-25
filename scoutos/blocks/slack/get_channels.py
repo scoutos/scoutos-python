@@ -32,13 +32,12 @@ class GetChannels(Slack):
                     message = data.get("error", "An unknown exception occurred")
                     raise BlockExecutionError(message)
 
-                # import json
-                #
-                # print(json.dumps(data, indent=2))
+                channel_data = data.get("channels")
+                if not channel_data or not isinstance(channel_data, list):
+                    message = "no channels returned"
+                    raise BlockExecutionError(message)
 
-                return [
-                    Channel(**channel_data) for channel_data in data.get("channels", [])
-                ]
+                return [Channel(**channel_datum) for channel_datum in channel_data]
 
             except ValidationError as validation_error:
                 message = "output failed data validation"
