@@ -1,0 +1,548 @@
+{
+  "ok": true,
+  "messages": [
+    {
+      "user": "U04T4GSUAF9",
+      "type": "message",
+      "ts": "1712163070.080049",
+      "client_msg_id": "0da9033e-b214-4379-b771-af3be7e85d78",
+      "text": "pushed out an update that touched a lot of things, so please keep eye out for any odd behavior / bugs and lmk",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "reply_count": 13,
+      "reply_users_count": 2,
+      "latest_reply": "1712170489.133169",
+      "reply_users": ["U05LHSTAJNA", "U04T4GSUAF9"],
+      "is_locked": false,
+      "subscribed": false,
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "TMeoQ",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "pushed out an update that touched a lot of things, so please keep eye out for any odd behavior / bugs and lmk"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Yooo noticed the citibot chat isn\u2019t rending the links in markdown,",
+      "files": [
+        {
+          "id": "F06S85N7NUF",
+          "created": 1712170039,
+          "timestamp": 1712170039,
+          "name": "Screen Shot 2024-04-03 at 2.47.14 PM.png",
+          "title": "Screen Shot 2024-04-03 at 2.47.14 PM.png",
+          "mimetype": "image/png",
+          "filetype": "png",
+          "pretty_type": "PNG",
+          "user": "U05LHSTAJNA",
+          "user_team": "T04TMGM7A8L",
+          "editable": false,
+          "size": 462129,
+          "mode": "hosted",
+          "is_external": false,
+          "external_type": "",
+          "is_public": true,
+          "public_url_shared": false,
+          "display_as_bot": false,
+          "username": "",
+          "url_private": "https://files.slack.com/files-pri/T04TMGM7A8L-F06S85N7NUF/screen_shot_2024-04-03_at_2.47.14_pm.png",
+          "url_private_download": "https://files.slack.com/files-pri/T04TMGM7A8L-F06S85N7NUF/download/screen_shot_2024-04-03_at_2.47.14_pm.png",
+          "media_display_type": "unknown",
+          "thumb_64": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06S85N7NUF-6ab18cfe2a/screen_shot_2024-04-03_at_2.47.14_pm_64.png",
+          "thumb_80": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06S85N7NUF-6ab18cfe2a/screen_shot_2024-04-03_at_2.47.14_pm_80.png",
+          "thumb_360": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06S85N7NUF-6ab18cfe2a/screen_shot_2024-04-03_at_2.47.14_pm_360.png",
+          "thumb_360_w": 360,
+          "thumb_360_h": 344,
+          "thumb_480": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06S85N7NUF-6ab18cfe2a/screen_shot_2024-04-03_at_2.47.14_pm_480.png",
+          "thumb_480_w": 480,
+          "thumb_480_h": 458,
+          "thumb_160": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06S85N7NUF-6ab18cfe2a/screen_shot_2024-04-03_at_2.47.14_pm_160.png",
+          "thumb_720": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06S85N7NUF-6ab18cfe2a/screen_shot_2024-04-03_at_2.47.14_pm_720.png",
+          "thumb_720_w": 720,
+          "thumb_720_h": 687,
+          "thumb_800": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06S85N7NUF-6ab18cfe2a/screen_shot_2024-04-03_at_2.47.14_pm_800.png",
+          "thumb_800_w": 800,
+          "thumb_800_h": 763,
+          "thumb_960": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06S85N7NUF-6ab18cfe2a/screen_shot_2024-04-03_at_2.47.14_pm_960.png",
+          "thumb_960_w": 960,
+          "thumb_960_h": 916,
+          "thumb_1024": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06S85N7NUF-6ab18cfe2a/screen_shot_2024-04-03_at_2.47.14_pm_1024.png",
+          "thumb_1024_w": 1024,
+          "thumb_1024_h": 977,
+          "original_w": 1092,
+          "original_h": 1042,
+          "thumb_tiny": "AwAtADDS59KMUHjvQPrQAtFFFACc+lAGO2KWigBMnnilppP+1ilBHrQAtFJuHrRuHrQAppKCR60duuaAGN96k7VIRmjAoAYPajB9DUmKKAI8H0NOByOmKdQaAP/Z",
+          "permalink": "https://scout-team-hq.slack.com/files/U05LHSTAJNA/F06S85N7NUF/screen_shot_2024-04-03_at_2.47.14_pm.png",
+          "permalink_public": "https://slack-files.com/T04TMGM7A8L-F06S85N7NUF-04b1fed392",
+          "is_starred": false,
+          "has_rich_preview": false,
+          "file_access": "visible"
+        }
+      ],
+      "upload": false,
+      "user": "U05LHSTAJNA",
+      "display_as_bot": false,
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "Plf6E",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "Yooo noticed the <client> chat isn\u2019t rending the links in markdown,"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "message",
+      "ts": "1712170042.296379",
+      "client_msg_id": "fc6cbc92-7af2-4335-ae62-687c5811fb85",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9"
+    },
+    {
+      "user": "U05LHSTAJNA",
+      "type": "message",
+      "ts": "1712170056.021819",
+      "client_msg_id": "ed474b30-dd9b-420b-becb-15bc08aa1ccf",
+      "text": "rendering*",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "1jc8h",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "rendering*"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user": "U04T4GSUAF9",
+      "type": "message",
+      "ts": "1712170082.931749",
+      "client_msg_id": "d30eb0c7-1823-42b0-8e27-0acfb2910c3d",
+      "text": "i bet it is",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "QQSDD",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "i bet it is"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user": "U04T4GSUAF9",
+      "type": "message",
+      "ts": "1712170084.736479",
+      "client_msg_id": "43c2c4ad-55b9-429e-9051-90e78218856f",
+      "text": "just not styled",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "KlT9B",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "just not styled"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user": "U04T4GSUAF9",
+      "type": "message",
+      "ts": "1712170087.909849",
+      "client_msg_id": "01e473ec-729d-4a9a-9a24-44d8de4064e4",
+      "text": "see if u can click",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "HcqZQ",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "see if u can click"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user": "U04T4GSUAF9",
+      "type": "message",
+      "ts": "1712170103.631499",
+      "client_msg_id": "b9532590-e7f9-44c2-8cd7-18a150c32fb9",
+      "text": "dam that dashboard look good tho",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "SoJdk",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "dam that dashboard look good tho"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "text": "Thats the expected result",
+      "files": [
+        {
+          "id": "F06SKQQRSKF",
+          "created": 1712170111,
+          "timestamp": 1712170111,
+          "name": "Screen Shot 2024-04-03 at 2.48.14 PM.png",
+          "title": "Screen Shot 2024-04-03 at 2.48.14 PM.png",
+          "mimetype": "image/png",
+          "filetype": "png",
+          "pretty_type": "PNG",
+          "user": "U05LHSTAJNA",
+          "user_team": "T04TMGM7A8L",
+          "editable": false,
+          "size": 141611,
+          "mode": "hosted",
+          "is_external": false,
+          "external_type": "",
+          "is_public": true,
+          "public_url_shared": false,
+          "display_as_bot": false,
+          "username": "",
+          "url_private": "https://files.slack.com/files-pri/T04TMGM7A8L-F06SKQQRSKF/screen_shot_2024-04-03_at_2.48.14_pm.png",
+          "url_private_download": "https://files.slack.com/files-pri/T04TMGM7A8L-F06SKQQRSKF/download/screen_shot_2024-04-03_at_2.48.14_pm.png",
+          "media_display_type": "unknown",
+          "thumb_64": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SKQQRSKF-01a9096e38/screen_shot_2024-04-03_at_2.48.14_pm_64.png",
+          "thumb_80": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SKQQRSKF-01a9096e38/screen_shot_2024-04-03_at_2.48.14_pm_80.png",
+          "thumb_360": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SKQQRSKF-01a9096e38/screen_shot_2024-04-03_at_2.48.14_pm_360.png",
+          "thumb_360_w": 360,
+          "thumb_360_h": 151,
+          "thumb_480": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SKQQRSKF-01a9096e38/screen_shot_2024-04-03_at_2.48.14_pm_480.png",
+          "thumb_480_w": 480,
+          "thumb_480_h": 202,
+          "thumb_160": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SKQQRSKF-01a9096e38/screen_shot_2024-04-03_at_2.48.14_pm_160.png",
+          "thumb_720": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SKQQRSKF-01a9096e38/screen_shot_2024-04-03_at_2.48.14_pm_720.png",
+          "thumb_720_w": 720,
+          "thumb_720_h": 302,
+          "original_w": 762,
+          "original_h": 320,
+          "thumb_tiny": "AwAUADDQ+bJweM+tGG/vfrTGHzHj9P8A61AH+z+n/wBagB+G/vD86TDf3v1puDjp+n/1qADnp+n/ANagB43DuD9TTh05x+FRbfb9P/rVKqhRxQAYGc4GaWiigAooooAKKKKAP//Z",
+          "permalink": "https://scout-team-hq.slack.com/files/U05LHSTAJNA/F06SKQQRSKF/screen_shot_2024-04-03_at_2.48.14_pm.png",
+          "permalink_public": "https://slack-files.com/T04TMGM7A8L-F06SKQQRSKF-572a8b5c45",
+          "is_starred": false,
+          "has_rich_preview": false,
+          "file_access": "visible"
+        }
+      ],
+      "upload": false,
+      "user": "U05LHSTAJNA",
+      "display_as_bot": false,
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "TcqGn",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "Thats the expected result"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "message",
+      "ts": "1712170132.498589",
+      "client_msg_id": "8e229e84-f6df-49b9-a97b-82eb0afc58df",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9"
+    },
+    {
+      "text": "answer",
+      "files": [
+        {
+          "id": "F06SG3UHNMU",
+          "created": 1712170152,
+          "timestamp": 1712170152,
+          "name": "Screen Shot 2024-04-03 at 2.49.09 PM.png",
+          "title": "Screen Shot 2024-04-03 at 2.49.09 PM.png",
+          "mimetype": "image/png",
+          "filetype": "png",
+          "pretty_type": "PNG",
+          "user": "U05LHSTAJNA",
+          "user_team": "T04TMGM7A8L",
+          "editable": false,
+          "size": 188773,
+          "mode": "hosted",
+          "is_external": false,
+          "external_type": "",
+          "is_public": true,
+          "public_url_shared": false,
+          "display_as_bot": false,
+          "username": "",
+          "url_private": "https://files.slack.com/files-pri/T04TMGM7A8L-F06SG3UHNMU/screen_shot_2024-04-03_at_2.49.09_pm.png",
+          "url_private_download": "https://files.slack.com/files-pri/T04TMGM7A8L-F06SG3UHNMU/download/screen_shot_2024-04-03_at_2.49.09_pm.png",
+          "media_display_type": "unknown",
+          "thumb_64": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SG3UHNMU-faa26e6c8a/screen_shot_2024-04-03_at_2.49.09_pm_64.png",
+          "thumb_80": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SG3UHNMU-faa26e6c8a/screen_shot_2024-04-03_at_2.49.09_pm_80.png",
+          "thumb_360": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SG3UHNMU-faa26e6c8a/screen_shot_2024-04-03_at_2.49.09_pm_360.png",
+          "thumb_360_w": 360,
+          "thumb_360_h": 110,
+          "thumb_480": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SG3UHNMU-faa26e6c8a/screen_shot_2024-04-03_at_2.49.09_pm_480.png",
+          "thumb_480_w": 480,
+          "thumb_480_h": 147,
+          "thumb_160": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SG3UHNMU-faa26e6c8a/screen_shot_2024-04-03_at_2.49.09_pm_160.png",
+          "thumb_720": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SG3UHNMU-faa26e6c8a/screen_shot_2024-04-03_at_2.49.09_pm_720.png",
+          "thumb_720_w": 720,
+          "thumb_720_h": 220,
+          "thumb_800": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SG3UHNMU-faa26e6c8a/screen_shot_2024-04-03_at_2.49.09_pm_800.png",
+          "thumb_800_w": 800,
+          "thumb_800_h": 244,
+          "thumb_960": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SG3UHNMU-faa26e6c8a/screen_shot_2024-04-03_at_2.49.09_pm_960.png",
+          "thumb_960_w": 960,
+          "thumb_960_h": 293,
+          "thumb_1024": "https://files.slack.com/files-tmb/T04TMGM7A8L-F06SG3UHNMU-faa26e6c8a/screen_shot_2024-04-03_at_2.49.09_pm_1024.png",
+          "thumb_1024_w": 1024,
+          "thumb_1024_h": 313,
+          "original_w": 1048,
+          "original_h": 320,
+          "thumb_tiny": "AwAOADDQLHOKN59qGHelCjrQAm847Ubz7U7aPSjaPSgBu804HPcGjaPSl7UAf//Z",
+          "permalink": "https://scout-team-hq.slack.com/files/U05LHSTAJNA/F06SG3UHNMU/screen_shot_2024-04-03_at_2.49.09_pm.png",
+          "permalink_public": "https://slack-files.com/T04TMGM7A8L-F06SG3UHNMU-51b840df7a",
+          "is_starred": false,
+          "has_rich_preview": false,
+          "file_access": "visible"
+        }
+      ],
+      "upload": false,
+      "user": "U05LHSTAJNA",
+      "display_as_bot": false,
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "mPtdh",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "answer"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "message",
+      "ts": "1712170155.177549",
+      "client_msg_id": "13b8e8f2-b3df-4217-8032-b076c6c013ca",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9"
+    },
+    {
+      "user": "U04T4GSUAF9",
+      "type": "message",
+      "ts": "1712170415.750859",
+      "client_msg_id": "6a44b299-9cea-4cb3-9d35-78d3b2728f7e",
+      "text": "ok",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "luWBi",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "ok"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user": "U04T4GSUAF9",
+      "type": "message",
+      "ts": "1712170422.289639",
+      "client_msg_id": "64e1ff52-711c-4b65-9d35-e71fb36729b1",
+      "text": "is it pulling in that chunk?",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "YhlUw",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "is it pulling in that chunk?"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user": "U04T4GSUAF9",
+      "type": "message",
+      "ts": "1712170437.768349",
+      "client_msg_id": "a9e6bf2c-2870-4369-ad58-0e780eb2d923",
+      "text": "do you need to add to the prompt to tell it include any links if there are any there",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "O3fdc",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "do you need to add to the prompt to tell it include any links if there are any there"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user": "U04T4GSUAF9",
+      "type": "message",
+      "ts": "1712170482.871319",
+      "client_msg_id": "be818ad4-f058-4524-9d52-bc26e75f403e",
+      "text": "this wouldnt be related to any changes from that pr i dont think",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "mDC1c",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "this wouldnt be related to any changes from that pr i dont think"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "user": "U05LHSTAJNA",
+      "type": "message",
+      "ts": "1712170489.133169",
+      "client_msg_id": "ede581ba-22fe-472a-8aef-394bb3142e64",
+      "text": "I think we got it\n\nlooks like the prompt wasn\u2019t updated",
+      "team": "T04TMGM7A8L",
+      "thread_ts": "1712163070.080049",
+      "parent_user_id": "U04T4GSUAF9",
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "EbAZc",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "I think we got it\n\nlooks like the prompt wasn\u2019t updated"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "has_more": false
+}
