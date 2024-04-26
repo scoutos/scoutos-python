@@ -1,0 +1,276 @@
+{
+  "ok": true,
+  "messages": [
+    {
+      "user": "U05LHSTAJNA",
+      "type": "message",
+      "ts": "1713973667.990189",
+      "client_msg_id": "377e1257-8c84-46c1-a2f5-8b53f18ca473",
+      "text": "New twitter and linkedin post:\n<https://x.com/scoutshq/status/1783160230886486062>\n\n<https://www.linkedin.com/feed/update/urn:li:activity:7188925925990838272>",
+      "team": "T04TMGM7A8L",
+      "attachments": [
+        {
+          "image_url": "https://pbs.twimg.com/media/GL8Ox1UXEAAM_08.jpg:large",
+          "image_width": 1600,
+          "image_height": 900,
+          "image_bytes": 127855,
+          "from_url": "https://x.com/scoutshq/status/1783160230886486062",
+          "service_icon": "http://abs.twimg.com/favicons/twitter.3.ico",
+          "id": 1,
+          "original_url": "https://x.com/scoutshq/status/1783160230886486062",
+          "fallback": "X (formerly Twitter): Scout (@scoutshq) on X",
+          "text": "See what our users are saying about how quick it is to get their AI copilot up and running! @_hyper_io #copilot #LLM #AI #RAG",
+          "title": "Scout (@scoutshq) on X",
+          "title_link": "https://x.com/scoutshq/status/1783160230886486062",
+          "service_name": "X (formerly Twitter)"
+        },
+        {
+          "from_url": "https://www.linkedin.com/feed/update/urn:li:activity:7188925925990838272",
+          "image_url": "https://media.licdn.com/dms/image/D4E10AQGu7bfvQy3FaA/image-shrink_800/0/1713973504345?e=2147483647&v=beta&t=ooP1TomclZMd2_JMrF0dDejMuHSLTNqZ6aeo4mwMvb8",
+          "image_width": 800,
+          "image_height": 450,
+          "image_bytes": 35322,
+          "service_icon": "https://static.licdn.com/aero-v1/sc/h/al2o9zrvru7aqj8e1x2rzsrca",
+          "id": 2,
+          "original_url": "https://www.linkedin.com/feed/update/urn:li:activity:7188925925990838272",
+          "fallback": "Scout on LinkedIn: #copilot #llm #ai #rag",
+          "text": "See what our users are saying about how quick it is to get their AI copilot up and running! hyper\n#copilot #LLM #AI #RAG",
+          "title": "Scout on LinkedIn: #copilot #llm #ai #rag",
+          "title_link": "https://www.linkedin.com/feed/update/urn:li:activity:7188925925990838272",
+          "service_name": "linkedin.com"
+        }
+      ],
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "EgLqq",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "New twitter and linkedin post:\n"
+                },
+                {
+                  "type": "link",
+                  "url": "https://x.com/scoutshq/status/1783160230886486062"
+                },
+                {
+                  "type": "text",
+                  "text": "\n\n"
+                },
+                {
+                  "type": "link",
+                  "url": "https://www.linkedin.com/feed/update/urn:li:activity:7188925925990838272"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "reactions": [
+        {
+          "name": "raised_hands",
+          "users": ["U0502Q12Q1M"],
+          "count": 1
+        },
+        {
+          "name": "white_check_mark",
+          "users": ["U0502Q12Q1M"],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "text": "My goodness",
+      "files": [
+        {
+          "id": "F070H0FJXGU",
+          "created": 1713962928,
+          "timestamp": 1713962928,
+          "name": "Screenshot 2024-04-24 at 8.48.45 AM.png",
+          "title": "Screenshot 2024-04-24 at 8.48.45 AM.png",
+          "mimetype": "image/png",
+          "filetype": "png",
+          "pretty_type": "PNG",
+          "user": "U04T4GQ5LKH",
+          "user_team": "T04TMGM7A8L",
+          "editable": false,
+          "size": 177665,
+          "mode": "hosted",
+          "is_external": false,
+          "external_type": "",
+          "is_public": true,
+          "public_url_shared": false,
+          "display_as_bot": false,
+          "username": "",
+          "url_private": "https://files.slack.com/files-pri/T04TMGM7A8L-F070H0FJXGU/screenshot_2024-04-24_at_8.48.45_am.png",
+          "url_private_download": "https://files.slack.com/files-pri/T04TMGM7A8L-F070H0FJXGU/download/screenshot_2024-04-24_at_8.48.45_am.png",
+          "media_display_type": "unknown",
+          "thumb_64": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070H0FJXGU-71efb0924a/screenshot_2024-04-24_at_8.48.45_am_64.png",
+          "thumb_80": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070H0FJXGU-71efb0924a/screenshot_2024-04-24_at_8.48.45_am_80.png",
+          "thumb_360": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070H0FJXGU-71efb0924a/screenshot_2024-04-24_at_8.48.45_am_360.png",
+          "thumb_360_w": 360,
+          "thumb_360_h": 168,
+          "thumb_480": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070H0FJXGU-71efb0924a/screenshot_2024-04-24_at_8.48.45_am_480.png",
+          "thumb_480_w": 480,
+          "thumb_480_h": 224,
+          "thumb_160": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070H0FJXGU-71efb0924a/screenshot_2024-04-24_at_8.48.45_am_160.png",
+          "thumb_720": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070H0FJXGU-71efb0924a/screenshot_2024-04-24_at_8.48.45_am_720.png",
+          "thumb_720_w": 720,
+          "thumb_720_h": 336,
+          "thumb_800": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070H0FJXGU-71efb0924a/screenshot_2024-04-24_at_8.48.45_am_800.png",
+          "thumb_800_w": 800,
+          "thumb_800_h": 374,
+          "thumb_960": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070H0FJXGU-71efb0924a/screenshot_2024-04-24_at_8.48.45_am_960.png",
+          "thumb_960_w": 960,
+          "thumb_960_h": 448,
+          "thumb_1024": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070H0FJXGU-71efb0924a/screenshot_2024-04-24_at_8.48.45_am_1024.png",
+          "thumb_1024_w": 1024,
+          "thumb_1024_h": 478,
+          "original_w": 2278,
+          "original_h": 1064,
+          "thumb_tiny": "AwAWADDP/hHApCM0o6CigBu00bTTqKAG7TRtp1B6UAICMClyKbRQA7IoyKbRQA7IpCeKSigD/9k=",
+          "permalink": "https://scout-team-hq.slack.com/files/U04T4GQ5LKH/F070H0FJXGU/screenshot_2024-04-24_at_8.48.45_am.png",
+          "permalink_public": "https://slack-files.com/T04TMGM7A8L-F070H0FJXGU-0bebae9e19",
+          "is_starred": false,
+          "has_rich_preview": false,
+          "file_access": "visible"
+        }
+      ],
+      "upload": false,
+      "user": "U04T4GQ5LKH",
+      "display_as_bot": false,
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "c0dWL",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "My goodness"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "message",
+      "ts": "1713962936.207969",
+      "client_msg_id": "60d62db1-871f-4ec0-b8c7-47d0c96e8ee8",
+      "reactions": [
+        {
+          "name": "chart_with_upwards_trend",
+          "users": ["U0502Q12Q1M"],
+          "count": 1
+        },
+        {
+          "name": "muscle",
+          "users": ["U0502Q12Q1M"],
+          "count": 1
+        }
+      ]
+    },
+    {
+      "text": "Created the new updates document for next stand up",
+      "files": [
+        {
+          "id": "F070414MVRC",
+          "created": 1713905579,
+          "timestamp": 1713905579,
+          "name": "Screenshot 2024-04-23 at 4.52.56 PM.png",
+          "title": "Screenshot 2024-04-23 at 4.52.56 PM.png",
+          "mimetype": "image/png",
+          "filetype": "png",
+          "pretty_type": "PNG",
+          "user": "U04T4GQ5LKH",
+          "user_team": "T04TMGM7A8L",
+          "editable": false,
+          "size": 1030983,
+          "mode": "hosted",
+          "is_external": false,
+          "external_type": "",
+          "is_public": true,
+          "public_url_shared": false,
+          "display_as_bot": false,
+          "username": "",
+          "url_private": "https://files.slack.com/files-pri/T04TMGM7A8L-F070414MVRC/screenshot_2024-04-23_at_4.52.56_pm.png",
+          "url_private_download": "https://files.slack.com/files-pri/T04TMGM7A8L-F070414MVRC/download/screenshot_2024-04-23_at_4.52.56_pm.png",
+          "media_display_type": "unknown",
+          "thumb_64": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070414MVRC-4a2b0811dd/screenshot_2024-04-23_at_4.52.56_pm_64.png",
+          "thumb_80": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070414MVRC-4a2b0811dd/screenshot_2024-04-23_at_4.52.56_pm_80.png",
+          "thumb_360": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070414MVRC-4a2b0811dd/screenshot_2024-04-23_at_4.52.56_pm_360.png",
+          "thumb_360_w": 360,
+          "thumb_360_h": 208,
+          "thumb_480": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070414MVRC-4a2b0811dd/screenshot_2024-04-23_at_4.52.56_pm_480.png",
+          "thumb_480_w": 480,
+          "thumb_480_h": 277,
+          "thumb_160": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070414MVRC-4a2b0811dd/screenshot_2024-04-23_at_4.52.56_pm_160.png",
+          "thumb_720": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070414MVRC-4a2b0811dd/screenshot_2024-04-23_at_4.52.56_pm_720.png",
+          "thumb_720_w": 720,
+          "thumb_720_h": 415,
+          "thumb_800": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070414MVRC-4a2b0811dd/screenshot_2024-04-23_at_4.52.56_pm_800.png",
+          "thumb_800_w": 800,
+          "thumb_800_h": 461,
+          "thumb_960": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070414MVRC-4a2b0811dd/screenshot_2024-04-23_at_4.52.56_pm_960.png",
+          "thumb_960_w": 960,
+          "thumb_960_h": 554,
+          "thumb_1024": "https://files.slack.com/files-tmb/T04TMGM7A8L-F070414MVRC-4a2b0811dd/screenshot_2024-04-23_at_4.52.56_pm_1024.png",
+          "thumb_1024_w": 1024,
+          "thumb_1024_h": 591,
+          "original_w": 3104,
+          "original_h": 1790,
+          "thumb_tiny": "AwAbADCWxt4XtkZ41YkdxVj7Jb/88U/75qPTz/okY9v6mrVAEBtYB/yxT/vml+ywf88U/wC+alPUUtAEP2W3/wCeKf8AfNQXttClpIyxqCBwQPertV9Q/wCPKX6f1oAbp/8Ax6x/T+tWq5tZZFGFdgPQGl86X/nq/wD30aAOiPUUtc550v8Az1f/AL6NHnS/89X/AO+jQB0dVtQI+xyDuR/UVi+dL/z1f/vo0NLIww0jEHsTQB//2Q==",
+          "permalink": "https://scout-team-hq.slack.com/files/U04T4GQ5LKH/F070414MVRC/screenshot_2024-04-23_at_4.52.56_pm.png",
+          "permalink_public": "https://slack-files.com/T04TMGM7A8L-F070414MVRC-a1098a7170",
+          "is_starred": false,
+          "has_rich_preview": false,
+          "file_access": "visible"
+        }
+      ],
+      "upload": false,
+      "user": "U04T4GQ5LKH",
+      "display_as_bot": false,
+      "blocks": [
+        {
+          "type": "rich_text",
+          "block_id": "5j1Fv",
+          "elements": [
+            {
+              "type": "rich_text_section",
+              "elements": [
+                {
+                  "type": "text",
+                  "text": "Created the new updates document for next stand up"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "type": "message",
+      "ts": "1713905597.438239",
+      "client_msg_id": "b75d14dd-4132-4b35-bb9a-47d2b5838c3b",
+      "reactions": [
+        {
+          "name": "ship",
+          "users": ["U0502Q12Q1M"],
+          "count": 1
+        }
+      ]
+    }
+  ],
+  "has_more": true,
+  "pin_count": 0,
+  "channel_actions_ts": null,
+  "channel_actions_count": 0,
+  "warning": "missing_charset",
+  "response_metadata": {
+    "next_cursor": "bmV4dF90czoxNzEzODk4MzY5MTc3MTM5",
+    "warnings": ["missing_charset"]
+  }
+}
