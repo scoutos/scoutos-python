@@ -12,11 +12,11 @@ scoutos = "scoutos.cli.main:app"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-openai = "^1.16.1"
-jinja2 = "^3.1.3"
-pydantic = "^2.6.4"
+openai = "^1.0.0"
+jinja2 = "^3.0.0"
+pydantic = "^2.0.3"
 pyyaml = "^6.0.1"
-typer = "^0.12.3"
+typer = "^0.9"
 httpx = "^0.27.0"
 
 [tool.poetry.group.dev.dependencies]
