@@ -37,6 +37,13 @@ class Channel(BaseModel):
 class Message(BaseModel):
     model_config = ConfigDict(extra="allow")
 
+    client_msg_id: str
+    team: str
+    text: str
+    ts: str
+    type: str
+    user: str
+
 
 class ResponseMetadata(BaseModel):
     next_cursor: str | None
