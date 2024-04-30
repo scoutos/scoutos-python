@@ -3,7 +3,7 @@ from __future__ import annotations
 from typing import Literal
 
 import httpx
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, ConfigDict, ValidationError
 
 from scoutos.blocks import BlockExecutionError
 
@@ -12,6 +12,8 @@ from .types import Message, ResponseMetadata  # noqa: TCH001
 
 
 class GetMessagesInput(BaseModel):
+    model_config = ConfigDict(extra="ignore")
+
     channel: str
     """The ID of the channel from which to pull messages."""
     cursor: str | None = None
