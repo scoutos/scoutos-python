@@ -16,22 +16,23 @@ class GetMessagesInput(BaseModel):
 
     channel: str
     """The ID of the channel from which to pull messages."""
-    cursor: str | None = None
+
+    # cursor: str | None = None
     """Paginate through collections of data by setting the cursor parameter to
     a next_cursor attribute returned by a previous request's
     response_metadata. Default value fetches the first "page" of the
     collection. See pagination for more detail."""
 
-    latest: str | None = None
+    # latest: str | None = None
     """Only messages before this Unix timestamp will be included in results.
     Default is the current time."""
 
-    limit: int | None = 100
+    # limit: int = 100
     """The maximum number of items to return. Fewer than the requested number of
     items may be returned, even if the end of the conversation history
     hasn't been reached. Maximum of 999."""
 
-    oldest: str | None = None
+    # oldest: str = "0"
     """Only messages after this Unix timestamp will be included in results.
     Default is '0'.
     """
@@ -53,6 +54,8 @@ class GetMessages(Slack):
 
         headers = self._headers
         data = validated_input.model_dump()
+        print("Data::")
+        print(data)
         url = f"{self._http_api_url}/conversations.history"
 
         async with httpx.AsyncClient() as client:
