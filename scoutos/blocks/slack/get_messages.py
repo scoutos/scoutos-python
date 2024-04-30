@@ -64,6 +64,10 @@ class GetMessages(Slack):
 
                 if not data.get("ok"):
                     message = data.get("error", "an unknown exception occurred")
+                    print("Input::")
+                    print(validated_input)
+                    print("Response Data::")
+                    print(data)
                     raise BlockExecutionError(message)
 
                 return GetMessagesOutput.model_validate(data)
