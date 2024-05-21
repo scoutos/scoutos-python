@@ -1,6 +1,6 @@
-# Scout
+# Scout OS
 
-Build LLM Apps
+Framework for building agentic workflows
 
 ## Requirements
 
